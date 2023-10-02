@@ -56,4 +56,14 @@ table {
 body {
   font-family: 'Titillium Web', sans-serif;
   box-sizing: border-box;
+	background-color: #DDE6ED;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+a:visited {
+	color: inherit;
 }

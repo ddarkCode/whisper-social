@@ -11,7 +11,7 @@ import cors from 'cors';
 
 
 
-import HomePage from './src/pages/HomePage';
+import renderer from './helpers/renderer';
 
 const PORT = process.env.PORT || 3000;
 const log = debug('app');
@@ -25,7 +25,7 @@ app.use(express.static('public'));
 app.use(morgan('combined'));
 
 app.get('*', (req, res) => {
-  const content = renderToString(<HomePage/>)
+  const content = renderer(req)
 
   return res.status(200).render('index', {content});
 })
