@@ -1,0 +1,14 @@
+footer {
+ 
+    background-color: #27374D;
+    height: 100px;
+    text-align: center;
+    color: #fff;
+    font-size: 21px;
+    
+ 
+}
+
+footer div {
+  padding: 30px;
+}

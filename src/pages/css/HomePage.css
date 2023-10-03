@@ -1,0 +1,53 @@
+.home-page {
+  background: linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.60)), url('https://media.istockphoto.com/id/1326388811/photo/two-cheerful-young-girls-dressed-in-summer-clothes.webp?b=1&s=170667a&w=0&k=20&c=WgIewibsc4qNwJFmvr4InHGxsAbqjrqfOIiSjkWyszA=');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-page div {
+  width: 500px;
+  text-align: center;
+  color: #fff;
+  font-size: 21px;
+  line-height: 1.4;
+}
+
+.home-page div h1 {
+  font-size: 27px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.home-page div a {
+  border: 1px solid #fff;
+  background-color: #27374D;
+  height: 40px;
+  width: 150px;
+  margin-top: 20px;
+  display: inline-block;
+  padding-top: 12px;
+}
+
+
+@media only screen and (max-width: 600px) {
+  .home-page {
+    
+    background-size: cover;
+    height: 100vh;
+    background-position: 50%;
+    padding: 0 10px;
+   
+   
+  }
+  .home-page div {
+    width: 100%;
+
+
+    
+  }
+}

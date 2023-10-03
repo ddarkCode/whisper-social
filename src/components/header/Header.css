@@ -6,6 +6,13 @@ header {
   justify-content: center;
   align-items: center; 
   color: #fff;
+  
+}
+
+.home a {
+  font-size: 18px;
+  font-weight: 700;
+  font-style: italic;
 }
 
 .header-container {
@@ -15,6 +22,7 @@ header {
   align-items: center;
   height: 100%;
   padding: 0 50px;
+  
 }
 
 nav {
@@ -34,4 +42,64 @@ nav ul li {
 
 nav ul li:first-child {
   margin-left: 0;
+}
+
+.list-view {
+  display: none;
+ 
+}
+
+
+.smaller-screen {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-top: 20px;
+  padding-left: 20px;
+
+}
+
+.smaller-screen div li {
+  margin-bottom: 50px;
+}
+
+.smaller-screen .cancel {
+  margin-right: 30px;
+}
+
+
+@media only screen and (max-width: 600px) {
+  .header-container {
+    
+    padding: 0 20px;
+    
+  }/*
+  .list-view {
+    display: block;
+    justify-self: flex-end;
+  
+  } */
+  /* header {
+    display: block;
+    
+  } */
+
+  nav ul {
+    display: none;
+  }
+
+  .list-view {
+    display: block;
+   
+  }
+  
+  nav {
+  
+    width: 8%;
+  
+  }
 }
