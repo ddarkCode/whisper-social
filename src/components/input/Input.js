@@ -1,11 +1,11 @@
 import React from 'react';
 import {capitalize} from 'lodash';
 
-function Input({text}) {
+function Input({type ,text, onChange, value, placeholder}) {
   return (
     <div>
     <label htmlFor={text}>{capitalize(text)}</label>
-    <input type={text} id={text} name={text} />
+    <input type={type} id={text} name={text} onChange={onChange} value={value} placeholder={placeholder ? placeholder : ''} />
   </div>
   )
 }

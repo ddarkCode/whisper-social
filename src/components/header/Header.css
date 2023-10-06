@@ -6,13 +6,17 @@ header {
   justify-content: center;
   align-items: center; 
   color: #fff;
+  position: fixed;
+  width: 100%;
+  top: 0;
   
 }
 
-.home a {
-  font-size: 18px;
-  font-weight: 700;
-  font-style: italic;
+.home img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 .header-container {
@@ -22,6 +26,8 @@ header {
   align-items: center;
   height: 100%;
   padding: 0 50px;
+  
+
   
 }
 
@@ -71,22 +77,30 @@ nav ul li:first-child {
   margin-right: 30px;
 }
 
+.signout-button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: inherit;
+  font-weight: inherit;
+  font-family: inherit;
+  margin-right: 20px;
+
+}
+
 
 @media only screen and (max-width: 600px) {
   .header-container {
     
     padding: 0 20px;
     
-  }/*
-  .list-view {
-    display: block;
-    justify-self: flex-end;
+  }
+
+  .signout-button {
+    margin-left: 0;
+    padding-left: 0;
   
-  } */
-  /* header {
-    display: block;
-    
-  } */
+  }
 
   nav ul {
     display: none;

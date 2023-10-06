@@ -1,0 +1,115 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+}
+
+.profile .profile-header {
+  height: 420px;
+  background-color: #27374D;
+  color: #fff;
+}
+
+.profile .profile-header > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 40px;
+  border-bottom: 1px solid #fff;
+  padding-bottom: 10px;
+}
+
+.profile > h3 {
+  font-size: 27px;
+  font-weight: 600;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+}
+.profile-info div {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-left: 40px;
+}
+
+.profile-info div span:first-child {
+  margin-bottom: 20px;
+}
+
+.profile .profile-header img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+/**************************************************************************************/
+
+.user-whispers {
+  display: grid;
+  grid-template-columns: repeat(3, 33%);
+  grid-template-rows:repeat(3, 2fr);
+  column-gap: 20px;
+  row-gap: 20px;
+  justify-content: center;
+  background-color: #D2E0FB;
+  margin: 30px;
+  padding: 30px;
+  
+}
+
+
+@media only screen and (max-width: 950px) {
+  .profile-info div {
+    margin-left: 10px;
+  }
+  .user-whispers {
+    grid-template-columns: repeat(2, 48%);
+    grid-template-rows:repeat(2, 4fr);
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .profile .profile-header > div {
+    font-size: 12px;
+  
+    margin: 10px;
+    margin-bottom: 60px;
+    
+  }
+
+  .profile-info {
+    flex-direction: column;
+    
+  }
+
+  .profile-info div span:first-child {
+    margin-bottom: 10px;
+  }
+  .profile .profile-header img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+
+  .profile-info div {
+    margin-left: 0;
+  }
+  .user-whispers {
+    grid-template-columns: repeat(2, 45%);
+    grid-template-rows:repeat(2, 4fr);
+    margin: 10px;
+    padding: 10px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .user-whispers {
+    grid-template-columns: 95%;
+    grid-template-rows: 4fr;
+
+  }
+}
