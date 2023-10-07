@@ -1,22 +1,18 @@
 import {Schema, model} from 'mongoose';
 
-const whisperSchema = new Schema({
-  title: {
+const commentSchema = new Schema({
+  comment: {
     type: String,
     required: true
   },
-  image_url: {
+  commentById: {
     type: String,
     required: true
   },
-  whisper: {
-    type: String,
-    required: true
-  },
-  whispererId: {
+  whisperId: {
     type: String,
     required: true
   }
 }, {timestamps: true})
 
-export default model('Whisper', whisperSchema)
+export default model('Comment', commentSchema)

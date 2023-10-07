@@ -22,6 +22,8 @@ import passportConfig from './passport';
 import authRouter from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
 import whisperRoutes from './routes/whisperRoutes';
+import commentRoutes from './routes/commentRoutes';
+import likeRoutes from './routes/likeRoutes';
 
 const PORT = process.env.PORT || 3000;
 const log = debug('app');
@@ -67,6 +69,8 @@ passportConfig(app);
 app.use('/api/auth', authRouter())
 app.use('/api/users', userRoutes())
 app.use('/api/whispers', whisperRoutes())
+app.use('/api/comments', commentRoutes())
+app.use('/api/likes', likeRoutes());
 
 function reqMiddleware(req, res, next) {
   if (req.originalUrl === '/favicon.ico') {
