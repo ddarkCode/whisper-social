@@ -19,26 +19,23 @@ function whisperRoutes() {
         if (req.query.whispererId) {
           query.whispererId = req.query.whispererId
         }
+        log('Whispers Route Query: ', req.query)
         const whispers = await Whisper.find(query);
+        log('Whispers With Query: ', whispers);
+      
+        const whispersWithInfoPromise  = whispers.map(async whisper => {
+          const whispererInfo = await User.findById(whisper.whispererId);
+          return Object.assign({}, whisper._doc, {whispererUsername: whispererInfo.username}, {links: {self: `${req.headers.host}/api/whispers/${whisper._id}`}})
 
-        const whispererIds = []
-        for (let id of whispers) {
-          whispererIds.push(id.whispererId);
-        }
-        
-        const foundWhisperers = await Promise.all(whispererIds.map(whispererId => User.find({_id: whispererId})))
-        const mapFoundWhisperers = foundWhisperers.map(whisperer => whisperer[0])
-        const whisperWithInfo  = [];
-
-        for (let index = 0; index < whispers.length; index +=  1) {
-          for (let j = 0; j < mapFoundWhisperers.length; j += 1) {
-              if(mapFoundWhisperers[j].equals(whispers[index].whispererId) === true) {
-                whisperWithInfo.push(Object.assign({}, whispers[index]._doc, {whispererUsername: mapFoundWhisperers[j].username}, {links: {self: `${req.headers.host}/api/whispers/${whispers[index]._id}`}}))
-              }
-          }
-        }
+        })
+        Promise.all(whispersWithInfoPromise).then(whispersWithInfoResolved => {
+          return res.status(200).json(whispersWithInfoResolved);
+        }).catch(err => {
+          log(err);
+          return res.status(500).json(err);
+        })
   
-        return res.status(200).json(whisperWithInfo);
+        
       } catch (err) {
         log(err);
         return res.status(500).json(err);
@@ -71,21 +68,28 @@ function whisperRoutes() {
       const foundWhisper = await Whisper.findById(whisperId)
       const whisperer = await User.findById(foundWhisper.whispererId);
       const foundWhisperComments = await Comment.find({whisperId: foundWhisper._id});
-      const foundWhisperLikes = await Like.find({whisperId: foundWhisper._id})
-
+      const foundWhisperLikes = await Like.find({whisperId: foundWhisper._id});
+      let likeStatus;
+      if (req.user !== undefined) {
+        likeStatus = await Like.findOne({likedById: req.user._id, whisperId: foundWhisper._id})
+      }
+      log(likeStatus)
       const {title, image_url, whispererId, whisper, createdAt} = foundWhisper;
       const {username, firstname, lastname} = whisperer;
       
-      const foundWhisperWithWhispererInfo = {title, image_url, whispererId, whisper,createdAt,likes:foundWhisperLikes,  comments: foundWhisperComments, whisperer: {username, firstname, lastname}}
-      foundWhisperWithWhispererInfo.links = {};
-      foundWhisperWithWhispererInfo.links.filteredBy = `${req.headers.host}/api/whispers/?whispererId=${foundWhisper.whispererId}`
-      
-      return res.status(200).json(foundWhisperWithWhispererInfo)
+    
+      const WhisperWithWhispererInfoAndLinks = Object.assign({},
+        {title, likes: foundWhisperLikes, comments: foundWhisperComments,likeStatus,
+        image_url, whispererId, whisper, createdAt,username, firstname, lastname}, 
+        {links: {filteredBy: `${req.headers.host}/api/whispers/?whispererId=${foundWhisper.whispererId}`} });
+
+      return res.status(200).json(WhisperWithWhispererInfoAndLinks)
     } catch (err) {
       log(err);
       return res.status(500).json(err);
     }
   })
+  
 
   return whisperRouter;
 }

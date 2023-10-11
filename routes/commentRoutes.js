@@ -1,6 +1,10 @@
 import {Router} from 'express';
+import debug from 'debug';
 
 import Comment from '../models/commentModel';
+import User from '../models/authModel';
+
+const log = debug('app:commentRoutes');
 
 
 export default function commentRoutes() {
@@ -15,10 +19,21 @@ export default function commentRoutes() {
       query.whisperId = req.query.whisperId
     }
     if (req.query.commentBy) {
-      query.commentBy = req.query.commentById;
+      query.commentBy = req.query.commentBy;
     }
-    const foundComments = Comment.find(query);
-    return res.status(200).json(foundComments);
+    const foundComments = await Comment.find(query);
+    const promises = foundComments.map( async comment => {
+      const userInfo = await User.findById(comment.commentById);
+      return Object.assign({}, comment._doc, {username: userInfo.username, image_url: userInfo.image_url} ,{links: {filteredBy: `${req.headers.host}/api/comments/?commentBy=${comment.commentById}`}})
+    })
+
+    Promise.all(promises).then(values => {
+      return res.status(200).json(values);
+    }).catch(err => {
+      log(err);
+      return res.status(500).json(err);
+    })
+    
   } catch (err) {
     log(err);
     return res.status(500).json(err)
@@ -29,7 +44,9 @@ export default function commentRoutes() {
     try {
       const newComment = new Comment(req.body);
       await newComment.save();
-      return res.status(201).json(newComment);
+      const commentBy = await User.findById(newComment.commentById);
+      const commentWithInfo = Object.assign({}, newComment._doc, {image_url: commentBy.image_url, username: commentBy.username})
+      return res.status(201).json(commentWithInfo);
     } catch (err) {
       log(err);
       return res.status(500).json(err);
@@ -44,17 +61,20 @@ export default function commentRoutes() {
         return res.status(403).json({message: "comment Not Found"})
       }
       req.foundComment = foundComment;
+      next()
     } catch (err) {
       log(err);
       return res.status(500).json(err);
     }
   })
-  .get((req, res) => {
+  .get(async (req, res) => {
     try {
       const {foundComment} = req;
     const comment = foundComment._doc;
-    const commentWithLink = Object.assign({}, comment, {links: {filteredBy: `${req.headers.host}/api/comments/?commentBy=${comment.commentById}`}})
-      return res.status(200).json(commentWithLink);
+    const commentBy = await User.findById(comment.commentById);
+    let commentStatus = await Comment.findOne({commentById: req.user._id, whisperId: comment.whisperId})
+    const commentWithInfo = Object.assign({}, comment, {commentStatus, image_url: commentBy.image_url, username: commentBy.username})
+      return res.status(200).json(commentWithInfo);
     } catch (err) {
       log(err);
       return res.status(500).json(err);

@@ -21,7 +21,7 @@ section {
 
 }
 
-.whisper-container h2 {
+.whisper-container h2, .whisper-container h1 {
 margin-bottom: 10px;
 font-size: 22px;
 }

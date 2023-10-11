@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Form from '../components/form/Form';
 import Input from '../components/input/Input';
 import Button from '../components/button/Button';
+import TextArea from '../components/textarea/TextArea';
 
 import './css/AddWhisperPage.css';
 
@@ -29,12 +30,7 @@ function AddWhisperPage() {
         <h1>Whisper To The World</h1>
         <Input type={'text'} text={'title'} value={whisper['title']} onChange={handleChange}/>
         <Input type={'text'} text={'image-url'} value={whisper['image-url']} onChange={handleChange} />
-        <div>
-          <label htmlFor='whisper'>Whisperings</label>
-          <textarea  name={'whisper'} id='whisper' value={whisper.whisper} onChange={handleChange} >
-
-          </textarea>
-        </div>
+        <TextArea title={'Whisperings'} name={'whisper'} value={whisper.whisper} onChange={handleChange} />
         <Button type={'submit'} text={'Add Whispering'} />
       </Form>
 

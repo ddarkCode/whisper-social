@@ -43,7 +43,7 @@ app.use(cors());
 app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-app.use(morgan('combined'));
+app.use(morgan('tiny'));
 
 (async function connectToDB(){
   try {
@@ -84,12 +84,15 @@ app.get('*', reqMiddleware, (req, res) => {
 
   // const query = req.originalUrl.split('/').find(u => u.startsWith('?'))
   const whisperId = req.originalUrl.split('/')[2]
-  console.log('Original Url:', req.originalUrl)
-  console.log('Original Url:', req.originalUrl)
-  console.log('Original Url:', whisperId)
+  // console.log('Original Url:', req.originalUrl)
+  // console.log('Original Url:', req.originalUrl)
+  // console.log('Original Url:', whisperId)
+  let userId;
+  if (req.user) {
+    userId = req.user._id
+  }
   const promises = matchRoutes(Routes, req.path).map(({route, match}) => {
-    console.log(match);
-    return route.loadData ? route.loadData(store, whisperId) : Promise.resolve(null);
+    return route.loadData ? route.loadData(store, whisperId, userId) : Promise.resolve(null);
   })
 
   Promise.all(promises).then(() => {

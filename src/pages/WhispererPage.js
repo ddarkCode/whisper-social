@@ -1,45 +1,27 @@
-import React from 'react';
-import {useSelector} from 'react-redux';
+import React, {useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import {size} from 'lodash';
 import {GeoAlt, CalendarHeart} from 'react-bootstrap-icons';
 import {Link} from 'react-router-dom';
 
 import Whisper from '../components/whisper/Whisper';
 import { formatDate } from '../utils/utils';
+import { getWhispers, getWhispererWhispers } from '../redux/whisper/whispersSlice';
 
 import './css/WhispererPage.css';
 
 function WhispererPage() {
   const auth = useSelector(state => state.auth)
-  const whispererPosts = [
-    {
-      'image_url': 'https://cdn-misc.wimages.net/stories/fcc1002b-fe3b-4b14-a35f-dd790a179de4.jpg?v=3',
-      'title': 'Hello World',
-      'whisper': 'Embrace your inner hero on our platform, where your tweets resonate far and wide, sparking conversations that change the world one post at a time'
-  },
-  {
-    'image_url': 'https://cdn-misc.wimages.net/stories/fcc1002b-fe3b-4b14-a35f-dd790a179de4.jpg?v=3',
-    'title': 'Hello World',
-    'whisper': 'Embrace your inner hero on our platform, where your tweets resonate far and wide, sparking conversations that change the world one post at a time'
-},
-{
-  'image_url': 'https://cdn-misc.wimages.net/stories/fcc1002b-fe3b-4b14-a35f-dd790a179de4.jpg?v=3',
-  'title': 'Hello World',
-  'whisper': 'Embrace your inner hero on our platform, where your tweets resonate far and wide, sparking conversations that change the world one post at a time'
-},   {
-  'image_url': 'https://cdn-misc.wimages.net/stories/fcc1002b-fe3b-4b14-a35f-dd790a179de4.jpg?v=3',
-  'title': 'Hello World',
-  'whisper': 'Embrace your inner hero on our platform, where your tweets resonate far and wide, sparking conversations that change the world one post at a time'
-},   {
-  'image_url': 'https://cdn-misc.wimages.net/stories/fcc1002b-fe3b-4b14-a35f-dd790a179de4.jpg?v=3',
-  'title': 'Hello World',
-  'whisper': 'Embrace your inner hero on our platform, where your tweets resonate far and wide, sparking conversations that change the world one post at a time'
-},   {
-  'image_url': 'https://cdn-misc.wimages.net/stories/fcc1002b-fe3b-4b14-a35f-dd790a179de4.jpg?v=3',
-  'title': 'Hello World',
-  'whisper': 'Embrace your inner hero on our platform, where your tweets resonate far and wide, sparking conversations that change the world one post at a time'
-}, 
-  ]
+  const whispers = useSelector(state => state.whispers)
+
+  const dispatch = useDispatch()
+  useEffect(() => {
+    
+      dispatch(getWhispererWhispers(auth.user._id))
+    
+  }, []);
+
+ const whispererPosts = whispers.whispererWhispers;
 
   const spanStyle = {
     display: 'flex',
@@ -73,7 +55,7 @@ function WhispererPage() {
 
      <div className='user-whispers'>
       {
-        whispererPosts.map((whisper, index) => <Whisper key={index} {...whisper} />)
+        whispererPosts.map((whisper, index) => <Whisper key={whisper._id} {...whisper} />)
       }
      </div>
     </main>
@@ -81,5 +63,6 @@ function WhispererPage() {
 }
 
 export default {
-  component: WhispererPage
+  component: WhispererPage,
+  loadData: (store, whisperId, userId) => store.dispatch(getWhispererWhispers(userId))
 }

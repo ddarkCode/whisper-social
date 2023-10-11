@@ -16,7 +16,10 @@
 }
 
 /* .add_to_whisper {
-  position: relative;
+  position: fixed;
+  bottom: 100px;
+  right: 0;
+  z-index: 200;
 } */
 @media only screen and (max-width:600px) {
   .add-to-whisper {

@@ -1,0 +1,12 @@
+.default-image {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  background-color: brown;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 21px;
+  font-weight: 600;
+}

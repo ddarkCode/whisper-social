@@ -30,7 +30,7 @@ function SigninPage() {
     e.preventDefault();
     try {
       dispatch(signin(userInput));
-      history.push('/whisperer');
+      history.push('/whispers');
       setUserInput({
       email: '',
       password: ''

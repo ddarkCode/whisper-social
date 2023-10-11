@@ -1,0 +1,133 @@
+.comments-main {
+  width: 400px;
+  padding: 0 20px;
+  position: absolute;
+  right: 0;
+  height: 100vh;
+  background-color: #fff;
+  z-index: 100;
+}
+
+.comments-main form {
+  width: 100%;
+}
+
+.comments-main form div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comments-main form div h1 {
+  font-size: 21px;
+  font-weight: 600;
+}
+
+.comments-main form div textarea {
+  width: 250px;
+  height: 50px;
+  outline: none;
+  border: none;
+  box-shadow: 4px 4px 8px 0px rgba(0, 0, 0, 1);
+}
+.comments-main form div button {
+  width: 100px;
+  height: 55px;
+  background-color: #fff;
+  outline: none;
+}
+
+.comments-container h1 {
+  border-bottom: 1px solid #000;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.display-comment-container {
+  width: 95vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.display-comment-info {
+display: flex;
+justify-content: flex-start;
+align-items: center;
+}
+
+.display-comment-info a {
+  border-bottom: 1px solid #7D7C7C;
+}
+
+.display-comment-img-container {
+  width: 60px;
+  height: 60px;
+  margin-right: 20px !important;
+}
+
+.display-comment-img-container img {
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#display-comment-date {
+  margin-top: -30px;
+  font-size: 11px;
+  font-style: italic;
+}
+
+@media only screen and (max-width:600px) {
+  .comments-main {
+    width: 100%;
+    padding: 0;
+    text-align: center;
+  }
+
+  .comments-main form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  
+  }
+
+  .comments-main form div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90vw;
+  }
+
+  .display-comment-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 90vw;
+  }
+
+  .comments-main form div:first-child {
+    width: 90vw;
+  }
+
+  .comments-main form div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .comments-main form div textarea {
+    display: block;
+    width: 90vw;
+    height: 100px;
+   
+  }
+  .comments-main form div button {
+    display: block;
+    width: 90vw;
+    height: 50px;
+ 
+  }
+}
