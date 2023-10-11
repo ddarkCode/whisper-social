@@ -36,6 +36,22 @@
   margin-left: 40px;
 }
 
+.edit-profile, .follow-button {
+  height: 50px;
+  width: 150px;
+  border: 1px solid #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.follow-button {
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+
+}
+
 .profile-info div span:first-child {
   margin-bottom: 20px;
 }

@@ -10,7 +10,6 @@ export const signup = createAsyncThunk(
   'auth/signup',
   async (user, thunkApi) => {
     const {data} = await axios.post('http://localhost:3000/api/auth/signup', user);
-    console.log(data);
     return data;
   }
 )
@@ -26,7 +25,6 @@ export const signin = createAsyncThunk(
 export const update = createAsyncThunk(
   'auth/update',
   async (user, thunkApi) => {
-    console.log(`Auth Reducer: `, user)
     const {data} = await axios.patch(`http://localhost:3000/api/users/${user.userId}`, user)
     return data
   }

@@ -7,7 +7,8 @@ import SigninPage from './pages/SigninPage';
 import WhispersPage from './pages/WhispersPage';
 import WhisperPage from './pages/WhisperPage';
 import WhispererPage from './pages/WhispererPage';
-import AddWhisperPage from'./pages/AddWhisperPage'
+import AddWhisperPage from'./pages/AddWhisperPage';
+import UserPage from './pages/UserPage';
 
 const Routes = [
   {
@@ -42,7 +43,17 @@ const Routes = [
     },
     {
       ...AddWhisperPage,
-      path: '/addwhisper'
+      path: '/addwhisper',
+      exact: true
+    },
+    {
+      ...UserPage,
+      path: '/users/:userId'
+
+    },
+    {
+      ...AddWhisperPage,
+      path: '/addwhisper/:whisperId'
     }
    ]
   }

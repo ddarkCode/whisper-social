@@ -2,24 +2,27 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { size } from "lodash";
 import { GeoAlt, CalendarHeart } from "react-bootstrap-icons";
-import { Link } from "react-router-dom";
+import {useParams} from 'react-router-dom';
 
 import Whisper from "../components/whisper/Whisper";
 import { formatDate } from "../utils/utils";
 import {
-  getWhispers,
   getWhispererWhispers,
 } from "../redux/whisper/whispersSlice";
+import { getAUserProfile } from "../redux/users/usersSlice";
 
 import "./css/WhispererPage.css";
 
-function WhispererPage() {
+function UserPage() {
   const auth = useSelector((state) => state.auth);
   const whispers = useSelector((state) => state.whispers);
-
+  const user = useSelector(state => state.users.user);
+  const params = useParams()
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(getWhispererWhispers(auth.user._id));
+    dispatch(getWhispererWhispers(params.userId));
+    dispatch(getAUserProfile(params.userId))
   }, []);
 
   const whispererPosts = whispers.whispererWhispers;
@@ -36,36 +39,36 @@ function WhispererPage() {
           <div className="profile-info">
             <img src="https://images.unsplash.com/photo-1505274664176-44ccaa7969a8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHNlY3JldHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60" />
             <div>
-              <span>{`${auth.user ? auth.user.firstname : ""} ${
-                auth.user ? auth.user.lastname : ""
+              <span>{`${user ? user.firstname : ""} ${
+                user ? user.lastname : ""
               }`}</span>{" "}
-              <span>{auth.user ? auth.user.username : ""}</span>{" "}
+              <span>{user ? user.username : ""}</span>{" "}
             </div>
           </div>
-          <span >
-            <Link className="edit-profile" to="/signup">Edit Profile</Link>
-          </span>
+          
+          <button className="follow-button" >Follow</button>
+    
         </div>
         <div>
           <span>
             <GeoAlt style={{ marginRight: "5px" }} />
-            {`${auth.user ? auth.user.location : ""}`}
+            {`${user ? user.location : ""}`}
           </span>
           <span>
             <CalendarHeart style={{ marginRight: "10px" }} />
-            {`Joined: ${auth.user ? formatDate(auth.user.createdAt) : ""}`}
+            {`Joined: ${user ? formatDate(user.createdAt) : ""}`}
           </span>
         </div>
         <div>
           <span>{`Followers: ${
-            auth.user ? size(auth.user.followers) : ""
+            user ? size(user.followers) : ""
           }`}</span>
           <span>{`Following: ${
-            auth.user ? size(auth.user.following) : ""
+            user ? size(user.following) : ""
           }`}</span>
         </div>
       </div>
-      <h3>My Whispers</h3>
+      <h3>{user.username} Whispers</h3>
 
       <div className="user-whispers">
         {whispererPosts.map((whisper, index) => (
@@ -77,7 +80,7 @@ function WhispererPage() {
 }
 
 export default {
-  component: WhispererPage,
+  component: UserPage,
   loadData: (store, whisperId, userId) =>
-    store.dispatch(getWhispererWhispers(userId)),
+    store.dispatch(getWhispererWhispers(whisperId)),
 };

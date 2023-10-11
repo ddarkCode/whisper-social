@@ -28,6 +28,30 @@ export const getWhisper = createAsyncThunk(
   }
 )
 
+export const postAWhisper = createAsyncThunk(
+  'whispers/post_a_whisper',
+  async (whisperObj, thunkApi) => {
+    const {data} = await axios.post(`http://localhost:3000/api/whispers`, whisperObj);
+    return data;
+  }
+)
+
+export const updateWhisper = createAsyncThunk(
+  'whispers/update_a_whisper',
+  async (updateObj, thunkApi) => {
+    const {data} = await axios.patch(`http://localhost:3000/api/whispers/${updateObj.whisperId}`, updateObj.updateData);
+    return data;
+  }
+)
+
+export const deleteWhisper = createAsyncThunk(
+  'whispers/delete_a_whisper',
+  async (whisperId, thunkApi) => {
+    const {data} = await axios.delete(`http://localhost:3000/api/whispers/${whisperId}`);
+    return data;
+  }
+)
+
 export const getLikes = createAsyncThunk(
   'whispers/get_likes',
   async (likeQuery, thunkApi) => {
@@ -94,6 +118,22 @@ export const whispersSlice = createSlice({
     builder.addCase(getWhisper.fulfilled, (state, action) => {
       state.whisper = action.payload;
     })
+    builder.addCase(postAWhisper.fulfilled, (state, action) => {
+      state.whispers = state.whispers.concat(action.payload);
+    })
+    builder.addCase(updateWhisper.fulfilled, (state, action) => {
+      state.whispers = state.whispers.map(whisper => {
+        if (whisper._id === action.payload._id) {
+          return action.payload;
+        } else {
+          return whisper
+        }
+      })
+    })
+    builder.addCase(deleteWhisper.fulfilled, (state, action) => {
+      state.whispers = state.whispers.filter(whisper => whisper._id !== action.payload._id);
+    })
+    
     builder.addCase(getLikes.fulfilled, (state, action) => {
       state.likes = action.payload;
     })

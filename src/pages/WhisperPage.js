@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { HeartFill, Chat } from "react-bootstrap-icons";
-import { useParams, Redirect, useHistory } from "react-router-dom";
+import { useParams, Redirect, useHistory, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 
-import { getWhisper, getComments, getLikes, postLike, deleteLike, postComment} from "../redux/whisper/whispersSlice";
+import { getWhisper, getComments, getLikes, postLike, deleteLike, postComment, deleteWhisper} from "../redux/whisper/whispersSlice";
 import { formatDate } from "../utils/utils";
 import Comment from "../components/comments/Comment";
 
@@ -57,6 +56,7 @@ function WhisperPage({}) {
     setDisplay(!display)
     history.push(`/whispers/${whisperId}`)
   }
+
  
   function renderWhisper() {
     return Object.keys(whisper).length === 0 ? (
@@ -77,7 +77,7 @@ function WhisperPage({}) {
           </div>
           <Link
             className="whisper-whisperer-link"
-            to={`/whisperers/${whisper.whispererId}`}
+            to={`/users/${whisper.whispererId}`}
           >
             {whisper.username}
           </Link>
@@ -112,6 +112,10 @@ function WhisperPage({}) {
               </button>
               <span>{likes.length}</span>
             </div>
+          </div>
+          <div className="whisperer-edit-delete">
+            <Link to={`/addwhisper/${whisperId}`}>Edit Whisper</Link>
+            <button onClick={() => dispatch(deleteWhisper(whisperId))} >Delete</button>
           </div>
         </div>
       </main>

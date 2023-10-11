@@ -1,6 +1,8 @@
 import {Router} from 'express';
-import User from '../models/authModel';
 import debug from 'debug';
+
+import User from '../models/authModel';
+import Whisper from '../models/whisperModel'
 
 const log = debug('app:userRoutes');
 
@@ -25,13 +27,7 @@ export default function userRoutes() {
   })
 
   userRouter.route('/:userId')
-  // .all( async (req, res, next) => {
-  //   if (req.isAuthenticated()) {
-  //     return next()
-  //   }
-  //   const error =  new Error('You Must Be Logged In To Perform This Operation.')
-  //   return res.status(403).json({error});
-  // })
+
   .all(async (req, res, next) => {
     try {
       const foundUser = await User.findById(req.params.userId);
@@ -50,9 +46,10 @@ export default function userRoutes() {
       const {foundUser} = req;
 
       const user = foundUser._doc;
+      const userWhispers = await Whisper.find({whispererId: user._id})
 
      
-      const userWithLink = Object.assign({}, user, {links: {filteredBy: `${req.headers.host}/api/whispers/?whispererId=${user._id}`}} )
+      const userWithLink = Object.assign({}, user, {userWhispers}, {links: {filteredBy: `${req.headers.host}/api/whispers/?whispererId=${user._id}`}} )
       return res.status(200).json(userWithLink);
       
     } catch (err) {
@@ -64,13 +61,19 @@ export default function userRoutes() {
     
     const {foundUser} = req;
     foundUser.username = foundUser.username.slice(1)
+
     Object.entries(req.body).forEach(entry => {
       const [key, value] = entry;
       foundUser[key] = value;
     })
+
     await foundUser.save();
+    const userWhispers = await Whisper.find({whispererId: foundUser._id})
+
     const {username, firstname, lastname, location, image_url, email, followers, following, createdAt, _id, whispers} = foundUser;
-        return res.status(200).json({user : {username, firstname, lastname, location, image_url, email, followers, following, createdAt, _id, whispers}, info: 'Account Successfully Updated.'})
+    const userWithLink = Object.assign({}, foundUser._doc, {userWhispers}, {links: {filteredBy: `${req.headers.host}/api/whispers/?whispererId=${foundUser._id}`}} )
+
+        return res.status(200).json({userWithLink, info: 'Account Successfully Updated.'})
 
   })
   .delete(async (req, res) => {
