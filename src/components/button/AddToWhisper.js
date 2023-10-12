@@ -10,4 +10,4 @@ function AddToWhisper() {
   )
 }
 
-export default AddToWhisper
+export default AddToWhisper;

@@ -10,7 +10,7 @@ header {
   width: 100%;
   top: 0;
   
-}
+} 
 
 .home img {
   height: 50px;
@@ -26,16 +26,13 @@ header {
   align-items: center;
   height: 100%;
   padding: 0 50px;
-  
-
-  
 }
 
 nav {
   width: 70%;
 }
 
-nav ul {
+ nav ul {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -45,6 +42,8 @@ nav ul li {
    margin-left: 20px;
 
 }
+
+
 
 nav ul li:first-child {
   margin-left: 0;
@@ -84,8 +83,7 @@ nav ul li:first-child {
   font-size: inherit;
   font-weight: inherit;
   font-family: inherit;
-  margin-right: 20px;
-
+  cursor: pointer;
 }
 
 

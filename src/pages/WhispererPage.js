@@ -11,6 +11,8 @@ import {
   getWhispererWhispers,
 } from "../redux/whisper/whispersSlice";
 
+import { DefaultImageUser } from "../components/images/DefaultImage";
+
 import "./css/WhispererPage.css";
 
 function WhispererPage() {
@@ -24,17 +26,21 @@ function WhispererPage() {
 
   const whispererPosts = whispers.whispererWhispers;
 
-  const spanStyle = {
-    display: "flex",
-    alignItems: "center",
-  };
+ let letter;
+ if (auth.user) {
+  letter = auth.user.username.slice(1, 2).toUpperCase()
+ }
 
   return (
     <main className="profile">
       <div className="profile-header">
         <div>
           <div className="profile-info">
-            <img src="https://images.unsplash.com/photo-1505274664176-44ccaa7969a8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHNlY3JldHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60" />
+          {
+              auth.user && auth.user.image_url ? <img src={auth.user.image_url} alt="user profile pic" />
+            :
+           <DefaultImageUser letter={letter} />
+            }
             <div>
               <span>{`${auth.user ? auth.user.firstname : ""} ${
                 auth.user ? auth.user.lastname : ""

@@ -9,6 +9,22 @@ export const getAUserProfile = createAsyncThunk(
   }
 )
 
+export const followUser = createAsyncThunk(
+  'users/follower_user',
+  async (user, thunkApi) => {
+    const {data} = await axios.patch(`http://localhost:3000/api/users/${user.userId}/follow`, user);
+    return data;
+  }
+)
+
+export const unfollowUser = createAsyncThunk(
+  'users/un_follower_user',
+  async (user, thunkApi) => {
+    const {data} = await axios.patch(`http://localhost:3000/api/users/${user.userId}/unfollow`, user);
+    return data;
+  }
+)
+
 const initialState = {
   users: [],
   user: {}
@@ -21,6 +37,12 @@ export const usersSlice = createSlice({
    extraReducers: (builder) => {
     builder.addCase(getAUserProfile.fulfilled, (state, action) => {
       state.user = action.payload
+    })
+    builder.addCase(followUser.fulfilled, (state, action) => {
+      alert(action.payload.message)
+    })
+    builder.addCase(unfollowUser.fulfilled, (state, action) => {
+      alert(action.payload.message)
     })
    }
 })

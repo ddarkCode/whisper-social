@@ -1,18 +1,23 @@
 .single-whisper {
   display: flex;
   flex-direction: column;
+  text-align: left;
   line-height: 1.5;
   margin-top: 120px;
+  padding: 0 50px;
 }
-
+ 
 .single-whisper img {
   width: 100%;
+  object-fit: cover;
+  height: 600px;
 } 
 
 .single-whisper h2 {
   margin: 10px 0;
   font-size: 21px;
   font-weight: 500;
+  text-align: left;
 }
 
 .whisper-whisperer-link {
@@ -45,15 +50,17 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 30%;
 }
 
 .reaction-icons div {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  width: 20%;
   cursor: pointer;
+}
+
+.reaction-icons div span {
+  margin-left: 5px;
 }
 
 .reaction-icons div:first-child {
@@ -102,9 +109,21 @@
 
 
 @media only screen and (max-width: 600px) {
+
+  .single-whisper {
+ 
+    padding: 0 20px;
+    line-height: 1.7;
+    font-size: 18px;
+  }
+
   .single-whisper h2 {
     font-size: 18px;
     font-weight: 600;
   
   }
+  .single-whisper img {
+  
+    height: 400px;
+  } 
 }

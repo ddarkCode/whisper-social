@@ -1,4 +1,14 @@
 main {
+  margin-top: 120px;
+  text-align: center;
+  min-height: 100vh;
+  margin-top: 120px;
+  
+ 
+}
+
+
+.whisper-page {
   display: grid;
   grid-template-columns: repeat(3, 33%);
   grid-template-rows:repeat(3, 2fr);
@@ -7,32 +17,55 @@ main {
   justify-content: center;
   background-color: #D2E0FB;
   margin: 30px;
+  margin-top: 50px;
   padding: 30px;
-  margin-top: 120px;
   
 }
 
+.search_input {
+  width: 60%;
+  height: 40px;
+  outline: none;
+  border: none;
+  border-radius: 20px;
+  padding-left: 20px;
+  font-size: 18px;
+  font-family: inherit;
+  color: #7D7C7C;
+}
+
+.search_input::placeholder {
+
+  font-size: 18px;
+  font-family: inherit;
+}
+
+.search_input:focus {
+  outline: none;
+}
+
 @media only screen and (max-width: 950px) {
-  main {
+  .whisper-page {
     grid-template-columns: repeat(2, 48%);
     grid-template-rows:repeat(2, 4fr);
   }
 }
 
 @media only screen and (max-width: 600px) {
-  main {
+  .whisper-page {
     grid-template-columns: repeat(2, 45%);
     grid-template-rows:repeat(2, 4fr);
     margin: 10px;
     padding: 10px;
-    margin-top: 130px;
+    margin-top: 80px;
   }
 }
 
 @media only screen and (max-width: 400px) {
-  main {
+  .whisper-page {
     grid-template-columns: 95%;
     grid-template-rows: 4fr;
 
   }
+ 
 }

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -9,19 +9,29 @@ import './css/Whispers.css';
 
 function WhispersPage() {
   const dispatch = useDispatch()
-  const {whispers} = useSelector(state => state.whispers)
-  useEffect(() => {
+  let {whispers} = useSelector(state => state.whispers)
+  const [search, setSearch] = useState('')
 
-       dispatch(getWhispers({}))
-      
-    
+  useEffect(() => {
+    dispatch(getWhispers({}));
   }, [])
 
+  function handleSearchChange(e) {
+    const {value, name} = e.target;
+    setSearch(value);
+  }
+  whispers = whispers.filter(whisper => whisper.title.toLowerCase().includes(search.toLowerCase()));
+
   return (
-    <main>
-       {
+    <main> 
+     
+      <input className='search_input' name='search' placeholder='Search Whispers' value={search} onChange={handleSearchChange} />
+
+      <div className='whisper-page'>
+      {
          whispers.map((whisper, index) => <Whisper key={index} {...whisper} />)
        }
+      </div>
        
     </main>
   )

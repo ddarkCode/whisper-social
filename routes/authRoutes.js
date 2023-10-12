@@ -39,8 +39,17 @@ export default function authRouter() {
           const {username, firstname, lastname, location, image_url, email, followers, following, createdAt, _id} = user;
            return res.status(200).json({user : {username, firstname, lastname, location, image_url, email, followers, following, createdAt, _id}, info})
         })
-      
     })(req, res)
+   })
+   authRoutes.route('/signout')
+   .get(async (req, res) => {
+    req.logout(err => {
+      if (err) {
+        log(err);
+        return res.status(500).json(err);
+      }
+      return res.status(200).json({user: null, message: 'You Successfully Logged Out.'})
+    })
    })
 
   return authRoutes

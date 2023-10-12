@@ -30,6 +30,7 @@ function whisperRoutes() {
 
         })
         Promise.all(whispersWithInfoPromise).then(whispersWithInfoResolved => {
+          whispersWithInfoResolved.reverse();
           return res.status(200).json(whispersWithInfoResolved);
         }).catch(err => {
           log(err);

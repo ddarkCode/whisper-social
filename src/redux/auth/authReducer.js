@@ -14,6 +14,7 @@ export const signup = createAsyncThunk(
   }
 )
 
+
 export const signin = createAsyncThunk(
   'auth/signin',
   async (user, thunkApi) => {
@@ -21,6 +22,15 @@ export const signin = createAsyncThunk(
     return data
   }
 )
+
+export const signout = createAsyncThunk(
+  'auth/signout',
+  async (user, thunkApi) => {
+    const {data} = await axios.get('http://localhost:3000/api/auth/signout', user);
+    return data
+  }
+)
+
 
 export const update = createAsyncThunk(
   'auth/update',
@@ -50,6 +60,9 @@ export const authSlice = createSlice({
     builder.addCase(update.fulfilled, (state, action) => {
       state.user = action.payload.user;
       state.info = action.payload.user;
+    })
+    builder.addCase(signout.fulfilled, (state, action) => {
+      state.user = action.payload.user;
     })
 
   }

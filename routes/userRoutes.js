@@ -2,7 +2,8 @@ import {Router} from 'express';
 import debug from 'debug';
 
 import User from '../models/authModel';
-import Whisper from '../models/whisperModel'
+import Whisper from '../models/whisperModel';
+import { getFollowInfo, followPromise } from '../helpers/serverUtils';
 
 const log = debug('app:userRoutes');
 
@@ -46,10 +47,23 @@ export default function userRoutes() {
       const {foundUser} = req;
 
       const user = foundUser._doc;
-      const userWhispers = await Whisper.find({whispererId: user._id})
 
-     
-      const userWithLink = Object.assign({}, user, {userWhispers}, {links: {filteredBy: `${req.headers.host}/api/whispers/?whispererId=${user._id}`}} )
+      const userWhispers = await Whisper.find({whispererId: user._id});
+
+      let userFollowers = await followPromise(user.followers, User);
+
+      let userFollowing = await followPromise(user.following, User);
+
+      let resolvedFollowers = await Promise.all(userFollowers);
+      let resolvedFollowing = await Promise.all(userFollowing);
+
+      const followers = getFollowInfo(resolvedFollowers);
+      const following = getFollowInfo(resolvedFollowing);
+    
+      delete user.password;
+      delete user.email;
+
+      const userWithLink = Object.assign({}, user, {followers, following}, {userWhispers}, {links: {filteredBy: `${req.headers.host}/api/whispers/?whispererId=${user._id}`}} )
       return res.status(200).json(userWithLink);
       
     } catch (err) {
@@ -68,10 +82,23 @@ export default function userRoutes() {
     })
 
     await foundUser.save();
+    
     const userWhispers = await Whisper.find({whispererId: foundUser._id})
+    const user = foundUser._doc;
 
-    const {username, firstname, lastname, location, image_url, email, followers, following, createdAt, _id, whispers} = foundUser;
-    const userWithLink = Object.assign({}, foundUser._doc, {userWhispers}, {links: {filteredBy: `${req.headers.host}/api/whispers/?whispererId=${foundUser._id}`}} )
+    let userFollowers = await followPromise(user.followers, User);
+    let userFollowing = await followPromise(user.following, User);
+
+    let resolvedFollowers = await Promise.all(userFollowers);
+    let resolvedFollowing = await Promise.all(userFollowing);
+
+    const followers = getFollowInfo(resolvedFollowers);
+    const following = getFollowInfo(resolvedFollowing);
+  
+    delete user.password;
+    delete user.email;
+
+    const userWithLink = Object.assign({}, user, {followers, following}, {userWhispers}, {links: {filteredBy: `${req.headers.host}/api/whispers/?whispererId=${user._id}`}} )
 
         return res.status(200).json({userWithLink, info: 'Account Successfully Updated.'})
 
@@ -86,7 +113,34 @@ export default function userRoutes() {
       log(err);
       return res.status(500).json(err);
     }
+  });
+  userRouter.route('/:userId/follow')
+  .patch(async (req, res) => {
+    const {userId} = req.params;
+    try {
+    await User.updateOne({_id: userId}, {$push: {followers: req.body.whispererId}});
+    await User.updateOne({_id: req.body.whispererId}, {$push: {following: userId}});
+    const user = await User.findById(userId);
+    return res.status(201).json({message: `Successfully Followed ${user.username}`}) 
+    } catch (err) {
+      log(err)
+      return res.status(500).json(err);
+    }
   })
+  userRouter.route('/:userId/unfollow')
+  .patch(async (req, res) => {
+    const {userId} = req.params;
+    try {
+    await User.updateOne({_id: userId}, {$pull: {followers: req.body.whispererId}});
+    await User.updateOne({_id: req.body.whispererId}, {$pull: {following: userId}});
+    const user = await User.findById(userId);
+    return res.status(201).json({message: `Successfully Unfollowed ${user.username}`}) 
+    } catch (err) {
+      log(err)
+      return res.status(500).json(err);
+    }
+  })
+  
 
   return userRouter;
 }

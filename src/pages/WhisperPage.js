@@ -20,6 +20,13 @@ function WhisperPage({}) {
   const {whisper, comments, likes} = whispers;
   const {whisperId} = params;
 
+  let whisperStatus = false;
+  if (auth.user && whisper) {
+     if (whisper.whispererId === auth.user._id) {
+      whisperStatus = true
+     }
+  }
+
   useEffect(() => {
     dispatch(getWhisper(whisperId));
     dispatch(getLikes(whisperId))
@@ -57,6 +64,14 @@ function WhisperPage({}) {
     history.push(`/whispers/${whisperId}`)
   }
 
+  function handleCommentButton(){
+    if (auth.user) {
+      setDisplay(!display)
+    }else{
+      history.push('/signin')
+    }
+  }
+
  
   function renderWhisper() {
     return Object.keys(whisper).length === 0 ? (
@@ -78,12 +93,12 @@ function WhisperPage({}) {
           <Link
             className="whisper-whisperer-link"
             to={`/users/${whisper.whispererId}`}
-          >
+          > 
             {whisper.username}
           </Link>
           <p>{whisper.whisper}</p>
-          <div className="reaction-icons" onClick={() => setDisplay(!display)}>
-            <div>
+          <div className="reaction-icons" >
+            <div onClick={handleCommentButton}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 16 16"
@@ -113,10 +128,12 @@ function WhisperPage({}) {
               <span>{likes.length}</span>
             </div>
           </div>
-          <div className="whisperer-edit-delete">
+          {
+            whisperStatus ? (<div className="whisperer-edit-delete">
             <Link to={`/addwhisper/${whisperId}`}>Edit Whisper</Link>
             <button onClick={() => dispatch(deleteWhisper(whisperId))} >Delete</button>
-          </div>
+          </div>): null
+          }
         </div>
       </main>
     );

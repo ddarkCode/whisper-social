@@ -13,8 +13,7 @@ export async function whisperWithInfo(foundWhisper, req) {
     if (req.user !== undefined) {
       likeStatus = await Like.findOne({likedById: req.user._id, whisperId: foundWhisper._id})
     }
-    
-    log(likeStatus)
+
     const {title, image_url, whispererId, whisper, createdAt} = foundWhisper;
     const {username, firstname, lastname} = whisperer;
 
@@ -31,4 +30,29 @@ export async function whisperWithInfo(foundWhisper, req) {
 
       return WhisperWithWhispererInfoAndLinks
   
+}
+
+export const getFollowInfo = (resolved) => {
+  const followObj = {}
+  resolved.forEach(resolvedKey => {
+    Object.keys(resolvedKey).forEach(key => {
+      if (Object.keys(resolvedKey[key]).length > 5) {
+        let follower = {}
+        for (let prop in resolvedKey[key]) {
+          if (prop !== 'password' && prop !== 'email' && prop  !== 'updatedAt') {
+            follower[prop] = resolvedKey[key][prop]
+          }
+        }
+        followObj[follower._id] = follower
+      } 
+    })
+   })
+   return followObj;
+}
+
+export const followPromise = async (arr, model) => {
+  return arr.map( async id => {
+    const followersInfo = await model.findById(id);
+    return followersInfo
+  });
 }

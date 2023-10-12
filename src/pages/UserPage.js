@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { size } from "lodash";
 import { GeoAlt, CalendarHeart } from "react-bootstrap-icons";
@@ -9,11 +9,14 @@ import { formatDate } from "../utils/utils";
 import {
   getWhispererWhispers,
 } from "../redux/whisper/whispersSlice";
-import { getAUserProfile } from "../redux/users/usersSlice";
+import { getAUserProfile, followUser, unfollowUser } from "../redux/users/usersSlice";
+import DefaultImage from "../components/images/DefaultImage";
+import { DefaultImageUser } from "../components/images/DefaultImage";
 
 import "./css/WhispererPage.css";
 
 function UserPage() {
+  const [change, setChange] = useState(false)
   const auth = useSelector((state) => state.auth);
   const whispers = useSelector((state) => state.whispers);
   const user = useSelector(state => state.users.user);
@@ -23,7 +26,7 @@ function UserPage() {
   useEffect(() => {
     dispatch(getWhispererWhispers(params.userId));
     dispatch(getAUserProfile(params.userId))
-  }, []);
+  }, [change]);
 
   const whispererPosts = whispers.whispererWhispers;
 
@@ -32,12 +35,40 @@ function UserPage() {
     alignItems: "center",
   };
 
+  let followStatus;
+
+  if (auth.user && user) {
+    followStatus = user.followers[auth.user._id]
+  }
+  console.log( followStatus )
+
+  function handleFollowUnfollow() {
+    if (followStatus) {
+
+       dispatch(unfollowUser({userId: params.userId, whispererId: auth.user._id}))
+       setChange(!change)
+    } else {
+      dispatch(followUser({userId: params.userId, whispererId: auth.user._id}))
+      setChange(!change)
+    }
+  }
+  
+  let letter;
+  if (user.username) {
+    letter = user.username.slice(1, 2).toUpperCase();
+  }
+ 
   return (
     <main className="profile">
       <div className="profile-header">
         <div>
           <div className="profile-info">
-            <img src="https://images.unsplash.com/photo-1505274664176-44ccaa7969a8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHNlY3JldHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60" />
+          {
+              user && user.image_url ? <img src={user.image_url} alt="user profile pic" />
+            :
+           <DefaultImageUser letter={letter} />
+            }
+           
             <div>
               <span>{`${user ? user.firstname : ""} ${
                 user ? user.lastname : ""
@@ -46,7 +77,7 @@ function UserPage() {
             </div>
           </div>
           
-          <button className="follow-button" >Follow</button>
+          <button className="follow-button" onClick={handleFollowUnfollow}>{followStatus ? 'Following' : 'Follow'}</button>
     
         </div>
         <div>

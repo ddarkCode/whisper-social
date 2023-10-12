@@ -15,12 +15,12 @@
   align-items: center;
 }
 
-/* .add_to_whisper {
-  position: fixed;
-  bottom: 100px;
-  right: 0;
-  z-index: 200;
-} */
+.add-to-whisper {
+  margin-left: 20px;
+  
+}
+
+
 @media only screen and (max-width:600px) {
   .add-to-whisper {
     margin-bottom: 30px;
