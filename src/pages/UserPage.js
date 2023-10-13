@@ -10,8 +10,9 @@ import {
   getWhispererWhispers,
 } from "../redux/whisper/whispersSlice";
 import { getAUserProfile, followUser, unfollowUser } from "../redux/users/usersSlice";
-import DefaultImage from "../components/images/DefaultImage";
 import { DefaultImageUser } from "../components/images/DefaultImage";
+
+import withAuthStatus from "../components/hoc/withAuthStatus";
 
 import "./css/WhispererPage.css";
 
@@ -30,17 +31,11 @@ function UserPage() {
 
   const whispererPosts = whispers.whispererWhispers;
 
-  const spanStyle = {
-    display: "flex",
-    alignItems: "center",
-  };
-
   let followStatus;
 
-  if (auth.user && user) {
+  if (auth.user && Object.keys(user).length !== 0) {
     followStatus = user.followers[auth.user._id]
   }
-  console.log( followStatus )
 
   function handleFollowUnfollow() {
     if (followStatus) {
@@ -111,7 +106,7 @@ function UserPage() {
 }
 
 export default {
-  component: UserPage,
+  component: withAuthStatus(UserPage),
   loadData: (store, whisperId, userId) =>
     store.dispatch(getWhispererWhispers(whisperId)),
 };

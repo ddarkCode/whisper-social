@@ -42,7 +42,7 @@ function SignupPage() {
     e.preventDefault();
     try {
       dispatch(signup(userInput));
-      history.push('/whisperer')
+      history.push('/whispers')
       setUserInput({
         username: '',
         firstname: '',

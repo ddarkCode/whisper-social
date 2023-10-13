@@ -12,6 +12,7 @@ import {
 } from "../redux/whisper/whispersSlice";
 
 import { DefaultImageUser } from "../components/images/DefaultImage";
+import withAuthStatus from "../components/hoc/withAuthStatus";
 
 import "./css/WhispererPage.css";
 
@@ -83,7 +84,7 @@ function WhispererPage() {
 }
 
 export default {
-  component: WhispererPage,
+  component: withAuthStatus(WhispererPage),
   loadData: (store, whisperId, userId) =>
     store.dispatch(getWhispererWhispers(userId)),
 };

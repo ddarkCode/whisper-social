@@ -27,6 +27,13 @@ function WhisperPage({}) {
      }
   }
 
+//   let isOwner = false;
+// if (auth.user) {
+//   if (auth.user._id === _id) {
+//     isOwner = true
+//   }
+// }
+
   useEffect(() => {
     dispatch(getWhisper(whisperId));
     dispatch(getLikes(whisperId))
@@ -92,7 +99,7 @@ function WhisperPage({}) {
           </div>
           <Link
             className="whisper-whisperer-link"
-            to={`/users/${whisper.whispererId}`}
+            to={ whisperStatus ? '/whisperer' :  `/users/${whisper.whispererId}`}
           > 
             {whisper.username}
           </Link>

@@ -9,6 +9,8 @@ import Input from '../components/input/Input';
 import Button from '../components/button/Button';
 import TextArea from '../components/textarea/TextArea';
 
+import withAuthStatus from '../components/hoc/withAuthStatus';
+
 import './css/AddWhisperPage.css';
 
 function AddWhisperPage() {
@@ -70,6 +72,6 @@ function AddWhisperPage() {
 }
 
 export default {
-  component: AddWhisperPage,
+  component: withAuthStatus(AddWhisperPage),
   loadData: (store, whisperId) => store.dispatch(getWhisper(whisperId))
 }

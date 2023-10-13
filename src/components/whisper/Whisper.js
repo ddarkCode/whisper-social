@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import './Whisper.css';
 
 function Whisper({image_url, title, whisper, _id, whispererUsername}) {
+
   return (
     <section>
       <Link to={`/whispers/${_id}`}  className='whisper-container'>
