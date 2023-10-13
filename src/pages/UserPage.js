@@ -4,6 +4,7 @@ import { size } from "lodash";
 import { GeoAlt, CalendarHeart } from "react-bootstrap-icons";
 import {useParams} from 'react-router-dom';
 
+
 import Whisper from "../components/whisper/Whisper";
 import { formatDate } from "../utils/utils";
 import {
@@ -41,7 +42,7 @@ function UserPage() {
     if (followStatus) {
 
        dispatch(unfollowUser({userId: params.userId, whispererId: auth.user._id}))
-       setChange(!change)
+       setChange(!change)   
     } else {
       dispatch(followUser({userId: params.userId, whispererId: auth.user._id}))
       setChange(!change)
@@ -73,7 +74,7 @@ function UserPage() {
           </div>
           
           <button className="follow-button" onClick={handleFollowUnfollow}>{followStatus ? 'Following' : 'Follow'}</button>
-    
+
         </div>
         <div>
           <span>

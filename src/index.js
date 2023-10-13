@@ -7,6 +7,7 @@ import {Provider} from 'react-redux';
 import Routes from "./Routes";
 import { createStore } from "./redux";
 
+import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 
 

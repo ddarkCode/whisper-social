@@ -12,6 +12,8 @@ import session from 'express-session';
 import  MongoDBStore  from 'connect-mongodb-session';
 import {connect} from 'mongoose';
 import { matchRoutes } from 'react-router-config';
+import http from 'http';
+import socket from 'socket.io'
 
 
 
@@ -82,11 +84,8 @@ function reqMiddleware(req, res, next) {
 
 app.get('*', reqMiddleware, (req, res) => {
 
-  // const query = req.originalUrl.split('/').find(u => u.startsWith('?'))
   const whisperId = req.originalUrl.split('/')[2]
-  // console.log('Original Url:', req.originalUrl)
-  // console.log('Original Url:', req.originalUrl)
-  // console.log('Original Url:', whisperId)
+ 
   let userId;
   if (req.user) {
     userId = req.user._id
@@ -104,5 +103,7 @@ app.get('*', reqMiddleware, (req, res) => {
   })
 
 })
+
+
 
 app.listen(PORT, () => log(`Server is running on port:${PORT} `));
