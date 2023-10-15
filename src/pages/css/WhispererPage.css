@@ -1,13 +1,15 @@
 .profile {
   display: flex;
   flex-direction: column;
-  margin-top: 100px;
+  margin-top: 120px;
+  position: relative;
 }
 
 .profile .profile-header {
   height: 420px;
-  background-color: #27374D;
+  background-color: #27374d;
   color: #fff;
+  width: 100%;
 }
 
 .profile .profile-header > div {
@@ -22,10 +24,10 @@
 .profile > h3 {
   font-size: 27px;
   font-weight: 600;
-  text-align: left;
+  align-self: flex-start;
   margin: 30px 0;
   margin-left: 30px;
-  color: #7D7C7C;
+  color: #7d7c7c;
 }
 
 .profile-info {
@@ -40,7 +42,8 @@
   margin-left: 40px;
 }
 
-.edit-profile, .follow-button {
+.edit-profile,
+.follow-button {
   height: 50px;
   width: 150px;
   border: 1px solid #fff;
@@ -54,7 +57,6 @@
   font-weight: 500;
   cursor: pointer;
   margin-bottom: 10px;
-
 }
 
 .envelope {
@@ -75,16 +77,14 @@
 .user-whispers {
   display: grid;
   grid-template-columns: repeat(3, 33%);
-  grid-template-rows:repeat(3, 2fr);
+  grid-template-rows: repeat(3, 2fr);
   column-gap: 20px;
   row-gap: 20px;
   justify-content: center;
-  background-color: #D2E0FB;
+  background-color: #d2e0fb;
   margin: 30px;
   padding: 30px;
-  
 }
-
 
 @media only screen and (max-width: 950px) {
   .profile-info div {
@@ -92,22 +92,20 @@
   }
   .user-whispers {
     grid-template-columns: repeat(2, 48%);
-    grid-template-rows:repeat(2, 4fr);
+    grid-template-rows: repeat(2, 4fr);
   }
 }
 
 @media only screen and (max-width: 700px) {
   .profile .profile-header > div {
     font-size: 12px;
-  
+
     margin: 10px;
     margin-bottom: 60px;
-    
   }
 
   .profile-info {
     flex-direction: column;
-    
   }
 
   .profile-info div span:first-child {
@@ -125,7 +123,7 @@
   }
   .user-whispers {
     grid-template-columns: repeat(2, 45%);
-    grid-template-rows:repeat(2, 4fr);
+    grid-template-rows: repeat(2, 4fr);
     margin: 10px;
     padding: 10px;
   }
@@ -135,12 +133,9 @@
   .user-whispers {
     grid-template-columns: 95%;
     grid-template-rows: 4fr;
-
   }
 
   .profile > h3 {
-   
     margin-left: 5px;
-  
   }
 }

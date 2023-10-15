@@ -3,10 +3,8 @@
   position: absolute;
   top: 0;
   right: 0;
-  
-
+  overflow-y: scroll;
 }
-
 
 .chats {
   min-height: 100vh;
@@ -16,7 +14,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow-y: scroll;
 }
 
 .chats ul {
@@ -31,7 +28,6 @@
   display: flex;
   flex-direction: column;
   padding: 20px;
-
 }
 
 .single-chat {
@@ -42,11 +38,11 @@
   font-size: 14px;
 }
 .mine {
-  background-color: #DDE6ED;
+  background-color: #dde6ed;
   color: #132043;
 }
 .other {
-  background-color: #27374D;
+  background-color: #27374d;
   color: #fff;
   align-self: flex-end;
 }
@@ -64,11 +60,10 @@
   font-style: italic;
 }
 
-.chat-profile-container {
- display: flex;
- justify-content: flex-start;
- align-items: center;
-  
+.chat-profile-container a {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .chat-profile-container span:first-child {
@@ -76,10 +71,10 @@
 }
 
 .chat-profile-container span img {
-height: 40px;
-width: 40px;
-object-fit: cover;
-border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .chat-input-container {
@@ -110,20 +105,16 @@ border-radius: 50%;
 }
 
 @media only screen and (max-width: 600px) {
-
   .chats-container {
-    
     margin-top: 50px;
   }
 
   .chat-cancel {
     margin-bottom: 20px;
-  
   }
 
   .chats {
     width: 90vw;
-    
   }
 
   .chat-container {
@@ -139,11 +130,11 @@ border-radius: 50%;
     width: 90%;
     margin: 40px 0;
   }
-  
+
   .chat-input-container input {
     height: 80px;
   }
-  
+
   .chat-input-container button {
     height: 80px;
   }

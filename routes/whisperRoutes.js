@@ -3,8 +3,6 @@ import debug from 'debug';
 
 import Whisper from '../models/whisperModel';
 import User from '../models/authModel';
-import Comment from '../models/commentModel';
-import Like from '../models/likeModel';
 import { whisperWithInfo } from '../helpers/serverUtils';
 
 const log = debug('app:whisperRoutes');
@@ -20,7 +18,6 @@ function whisperRoutes() {
         if (req.query.whispererId) {
           query.whispererId = req.query.whispererId;
         }
-        log('Request Query: ', req.query);
 
         const options = {
           page: +req.query.page,

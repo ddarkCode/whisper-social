@@ -1,5 +1,4 @@
 import React from 'react';
-import {PlusCircle} from 'react-bootstrap-icons';
 import {Link} from 'react-router-dom';
 
 import './Button.css'; 

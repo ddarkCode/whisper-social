@@ -10,11 +10,12 @@ function Whisper({
   _id,
   whispererUsername,
   whispererId,
+  userId,
 }) {
   return (
     <section>
       <div className="whisper-container">
-        <Link to={`/users/${whispererId}`}>
+        <Link to={userId ? '/whisperer' : `/users/${whispererId}`}>
           <h1>{whispererUsername}</h1>
         </Link>
         <Link to={`/whispers/${_id}`} className="whisper-container-detail">

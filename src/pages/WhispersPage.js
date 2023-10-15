@@ -12,7 +12,6 @@ function WhispersPage() {
   const dispatch = useDispatch();
   let { whispers, paginationOptions } = useSelector((state) => state.whispers);
   const [search, setSearch] = useState('');
-  console.log(whispers);
 
   useEffect(() => {
     dispatch(getWhispers({ page: 1, limit: 10 }));
@@ -28,16 +27,7 @@ function WhispersPage() {
       whisper.whispererUsername.toLowerCase().includes(search.toLowerCase())
   );
 
-  const {
-    totalDocs,
-    limit,
-    totalPages,
-    page,
-    hasPrevPage,
-    hasNextPage,
-    prevPage,
-    nextPage,
-  } = paginationOptions;
+  const { limit, hasNextPage, nextPage } = paginationOptions;
   const fetchMoreData = () => {
     dispatch(getWhispers({ page: nextPage, limit }));
   };

@@ -9,8 +9,6 @@ import WhisperPage from './pages/WhisperPage';
 import WhispererPage from './pages/WhispererPage';
 import AddWhisperPage from './pages/AddWhisperPage';
 import UserPage from './pages/UserPage';
-import Chats from './pages/Chats';
-import Loading from './components/loading/Loading';
 
 const Routes = [
   {
@@ -28,10 +26,6 @@ const Routes = [
       {
         ...SigninPage,
         path: '/signin',
-      },
-      {
-        component: Loading,
-        path: '/loading',
       },
       {
         ...WhispersPage,

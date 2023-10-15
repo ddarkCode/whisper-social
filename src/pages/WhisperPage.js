@@ -1,91 +1,99 @@
-import React, { useEffect, useState } from "react";
-import { HeartFill, Chat } from "react-bootstrap-icons";
-import { useParams, Redirect, useHistory, Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useParams, useHistory, Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { getWhisper, getComments, getLikes, postLike, deleteLike, postComment, deleteWhisper} from "../redux/whisper/whispersSlice";
-import { formatDate } from "../utils/utils";
-import Comment from "../components/comments/Comment";
+import {
+  getWhisper,
+  getComments,
+  getLikes,
+  postLike,
+  deleteLike,
+  postComment,
+  deleteWhisper,
+} from '../redux/whisper/whispersSlice';
+import { formatDate } from '../utils/utils';
+import Comment from '../components/comments/Comment';
 
-import "./css/WhisperPage.css";
+import './css/WhisperPage.css';
 
 function WhisperPage({}) {
   const params = useParams();
   const dispatch = useDispatch();
   const whispers = useSelector((state) => state.whispers);
-  const auth = useSelector(state => state.auth)
+  const auth = useSelector((state) => state.auth);
   const history = useHistory();
   const [liked, setLiked] = useState(false);
-  const [display, setDisplay] = useState(false)
-  const {whisper, comments, likes} = whispers;
-  const {whisperId} = params;
+  const [display, setDisplay] = useState(false);
+  const { whisper, comments, likes } = whispers;
+  const { whisperId } = params;
 
   let whisperStatus = false;
   if (auth.user && whisper) {
-     if (whisper.whispererId === auth.user._id) {
-      whisperStatus = true
-     }
+    if (whisper.whispererId === auth.user._id) {
+      whisperStatus = true;
+    }
   }
-
-//   let isOwner = false;
-// if (auth.user) {
-//   if (auth.user._id === _id) {
-//     isOwner = true
-//   }
-// }
 
   useEffect(() => {
     dispatch(getWhisper(whisperId));
-    dispatch(getLikes(whisperId))
-    dispatch(getComments(whisperId))
+    dispatch(getLikes(whisperId));
+    dispatch(getComments(whisperId));
   }, [liked]);
 
   function handleLike() {
-    dispatch(postLike({whisperId, likedById: auth.user._id}))
+    dispatch(postLike({ whisperId, likedById: auth.user._id }));
   }
   function handleDeleteLike() {
-      dispatch(deleteLike(whisper.likeStatus._id))  
+    dispatch(deleteLike(whisper.likeStatus._id));
   }
   function handleLikeButton() {
-    if(liked) {
-      setLiked(false)
-      handleDeleteLike()
+    if (liked) {
+      setLiked(false);
+      handleDeleteLike();
     } else {
-      setLiked(true)
-      handleLike()
+      setLiked(true);
+      handleLike();
     }
   }
- const [comment, setComment] = useState('')
-  function handleCommentChange(e){
+  const [comment, setComment] = useState('');
+  function handleCommentChange(e) {
     setComment(e.target.value);
   }
 
   function handleCommentSubmit(e) {
-    e.preventDefault()
-    dispatch(postComment({
-      commentById: auth.user._id,
-      whisperId,
-      comment
-    }))
-    setDisplay(!display)
-    history.push(`/whispers/${whisperId}`)
+    e.preventDefault();
+    dispatch(
+      postComment({
+        commentById: auth.user._id,
+        whisperId,
+        comment,
+      })
+    );
+    setDisplay(!display);
+    history.push(`/whispers/${whisperId}`);
   }
 
-  function handleCommentButton(){
+  function handleCommentButton() {
     if (auth.user) {
-      setDisplay(!display)
-    }else{
-      history.push('/signin')
+      setDisplay(!display);
+    } else {
+      history.push('/signin');
     }
   }
 
- 
   function renderWhisper() {
     return Object.keys(whisper).length === 0 ? (
       <h1>Loading</h1>
     ) : (
       <main className="single-whisper">
-        <Comment comments={comments} display={display} setDisplay={setDisplay} comment={comment} onSubmit={handleCommentSubmit} onChange={handleCommentChange} />
+        <Comment
+          comments={comments}
+          display={display}
+          setDisplay={setDisplay}
+          comment={comment}
+          onSubmit={handleCommentSubmit}
+          onChange={handleCommentChange}
+        />
         <div>
           <img src={whisper.image_url} />
           <h2>{whisper.title}</h2>
@@ -94,17 +102,17 @@ function WhisperPage({}) {
             <span>
               {whisper.createdAt
                 ? formatDate(whisper.createdAt)
-                : "October 2023"}
+                : 'October 2023'}
             </span>
           </div>
           <Link
             className="whisper-whisperer-link"
-            to={ whisperStatus ? '/whisperer' :  `/users/${whisper.whispererId}`}
-          > 
+            to={whisperStatus ? '/whisperer' : `/users/${whisper.whispererId}`}
+          >
             {whisper.username}
           </Link>
           <p>{whisper.whisper}</p>
-          <div className="reaction-icons" >
+          <div className="reaction-icons">
             <div onClick={handleCommentButton}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -118,29 +126,34 @@ function WhisperPage({}) {
               <span>{comments.length}</span>
             </div>
             <div>
-              <button disabled={auth.user ? false : true} onClick={handleLikeButton}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                width="2em"
-                height="2em"
-                fill={ liked ? "#C70039" : "#fff"}
+              <button
+                disabled={auth.user ? false : true}
+                onClick={handleLikeButton}
               >
-                <path
-                  fillRule="evenodd"
-                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
-                ></path>
-              </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  width="2em"
+                  height="2em"
+                  fill={liked ? '#C70039' : '#fff'}
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                  ></path>
+                </svg>
               </button>
               <span>{likes.length}</span>
             </div>
           </div>
-          {
-            whisperStatus ? (<div className="whisperer-edit-delete">
-            <Link to={`/addwhisper/${whisperId}`}>Edit Whisper</Link>
-            <button onClick={() => dispatch(deleteWhisper(whisperId))} >Delete</button>
-          </div>): null
-          }
+          {whisperStatus ? (
+            <div className="whisperer-edit-delete">
+              <Link to={`/addwhisper/${whisperId}`}>Edit Whisper</Link>
+              <button onClick={() => dispatch(deleteWhisper(whisperId))}>
+                Delete
+              </button>
+            </div>
+          ) : null}
         </div>
       </main>
     );
@@ -151,9 +164,9 @@ function WhisperPage({}) {
 
 export default {
   component: WhisperPage,
-  loadData: (store, whisperId) => { 
-    store.dispatch(getWhisper(whisperId))
-    store.dispatch(getLikes(whisperId))
-    store.dispatch(getComments(whisperId))
+  loadData: (store, whisperId) => {
+    store.dispatch(getWhisper(whisperId));
+    store.dispatch(getLikes(whisperId));
+    store.dispatch(getComments(whisperId));
   },
 };

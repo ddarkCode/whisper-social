@@ -13,9 +13,9 @@ export const getWhispers = createAsyncThunk(
 
 export const getWhispererWhispers = createAsyncThunk(
   'whispers/get_all_whisperer_whispers',
-  async (WhispererId, thunkApi) => {
+  async (options, thunkApi) => {
     const { data } = await axios.get(
-      `http://localhost:3000/api/whispers/?whispererId=${WhispererId}`
+      `http://localhost:3000/api/whispers/?whispererId=${options.userId}&page=${options.page}&limit=${options.limit}`
     );
     return data;
   }
@@ -135,7 +135,8 @@ export const whispersSlice = createSlice({
       state.paginationOptions = action.payload.paginationOptions;
     });
     builder.addCase(getWhispererWhispers.fulfilled, (state, action) => {
-      state.whispererWhispers = action.payload;
+      state.whispererWhispers = action.payload.whispers;
+      state.paginationOptions = action.payload.paginationOptions;
     });
     builder.addCase(getWhisper.fulfilled, (state, action) => {
       state.whisper = action.payload;

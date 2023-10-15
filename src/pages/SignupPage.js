@@ -31,7 +31,6 @@ function SignupPage() {
         [name]: value
       }
     })
-    console.log(userInput)
   }
 
   const dispatch = useDispatch()
