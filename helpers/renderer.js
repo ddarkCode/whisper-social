@@ -9,7 +9,6 @@ import Routes from '../src/Routes';
 
 
 export default function renderer(req, store){
-     console.log(store.getState())
      const content = 
      renderToString(
      <Provider store={store}>

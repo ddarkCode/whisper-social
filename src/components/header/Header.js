@@ -41,6 +41,8 @@ function Header() {
         <ul >
           <li><NavLink exact to='/' activeStyle={{borderBottom: '1px solid #DDE6ED'}}>Home</NavLink></li>
           <li><NavLink to='/whispers' activeStyle={{borderBottom: '1px solid #DDE6ED'}}>Whispers</NavLink></li>
+          {auth.user && <li><NavLink to='/chats' activeStyle={{borderBottom: '1px solid #DDE6ED'}}>Chats</NavLink></li>}
+
           {auth.user && <li><NavLink to='/whisperer' activeStyle={{borderBottom: '1px solid #DDE6ED'}}>Profile</NavLink></li>}
           {auth.user ? <li><button className='signout-button' onClick={handleSignout}>Sign Out</button></li> : <li><NavLink to='/signin' activeStyle={{borderBottom: '1px solid #DDE6ED'}}>Signin</NavLink></li>}
           <li className='about'><NavLink to='/about' activeStyle={{borderBottom: '1px solid #DDE6ED'}}>About</NavLink></li>

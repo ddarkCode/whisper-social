@@ -1,0 +1,150 @@
+.chats-container {
+  margin-top: 120px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  
+
+}
+
+
+.chats {
+  min-height: 100vh;
+  width: 50vw;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: scroll;
+}
+
+.chats ul {
+  width: 100%;
+}
+
+.chat-cancel {
+  cursor: pointer;
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+}
+
+.single-chat {
+  width: 80%;
+  min-height: 120px;
+  border-radius: 20px;
+  padding: 5px;
+  font-size: 14px;
+}
+.mine {
+  background-color: #DDE6ED;
+  color: #132043;
+}
+.other {
+  background-color: #27374D;
+  color: #fff;
+  align-self: flex-end;
+}
+
+.chat-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  border-bottom: 1px solid #fff;
+}
+
+.chat-header div span {
+  font-style: italic;
+}
+
+.chat-profile-container {
+ display: flex;
+ justify-content: flex-start;
+ align-items: center;
+  
+}
+
+.chat-profile-container span:first-child {
+  margin-right: 10px;
+}
+
+.chat-profile-container span img {
+height: 40px;
+width: 40px;
+object-fit: cover;
+border-radius: 50%;
+}
+
+.chat-input-container {
+  width: 80%;
+  display: flex;
+  justify-content: baseline;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.chat-input-container input {
+  height: 50px;
+  width: 75%;
+  border: none;
+  box-shadow: 4px 4px 8px 0px rgba(0, 0, 0, 1);
+  outline: none;
+  padding-left: 20px;
+  font-size: 18px;
+}
+
+.chat-input-container button {
+  height: 50px;
+  width: 25%;
+  border: none;
+  background: none;
+  box-shadow: 4px 4px 8px 0px rgba(0, 0, 0, 1);
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+
+  .chats-container {
+    
+    margin-top: 50px;
+  }
+
+  .chat-cancel {
+    margin-bottom: 20px;
+  
+  }
+
+  .chats {
+    width: 90vw;
+    
+  }
+
+  .chat-container {
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+
+  .single-chat {
+    width: 90%;
+  }
+
+  .chat-input-container {
+    width: 90%;
+    margin: 40px 0;
+  }
+  
+  .chat-input-container input {
+    height: 80px;
+  }
+  
+  .chat-input-container button {
+    height: 80px;
+  }
+}

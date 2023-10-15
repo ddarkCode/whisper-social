@@ -1,7 +1,6 @@
 section {
   width: 100%;
   margin: 20px;
-
 }
 
 .whisper-container {
@@ -13,23 +12,31 @@ section {
   width: 100%;
 }
 
-.whisper-container img {
+.whisper-container a {
+  margin-bottom: 20px;
+}
+
+.whisper-container-detail {
+  text-align: left;
+  font-size: 18px;
+  width: 100%;
+}
+
+.whisper-container-detail img {
   width: 100%;
   margin-bottom: 10px;
   height: 200px;
   object-fit: cover;
-
 }
 
-.whisper-container h2, .whisper-container h1 {
-margin-bottom: 10px;
-font-size: 22px;
+.whisper-container-detail h2,
+.whisper-container h1 {
+  margin-bottom: 10px;
+  font-size: 22px;
 }
 
-
-@media only screen and (max-width:600px) {
+@media only screen and (max-width: 600px) {
   .whisper-container img {
     width: 95%;
-
   }
 }

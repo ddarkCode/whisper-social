@@ -19,8 +19,6 @@ export default function() {
       query.whisperId = req.query.whisperId;
     }
 
-    log('Likes Query ===================================',query);
-
    try {
     const foundLikes = await Like.find(query);
    

@@ -53,7 +53,12 @@
   font-size: 18px;
   font-weight: 500;
   cursor: pointer;
+  margin-bottom: 10px;
 
+}
+
+.envelope {
+  cursor: pointer;
 }
 
 .profile-info div span:first-child {

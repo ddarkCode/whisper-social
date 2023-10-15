@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getWhisper, postAWhisper, updateWhisper } from '../redux/whisper/whispersSlice';
@@ -18,6 +18,7 @@ function AddWhisperPage() {
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const params = useParams();
+  const history = useHistory();
 
   useEffect(() => {
     if (params.whisperId) {
@@ -52,8 +53,10 @@ function AddWhisperPage() {
     if (params.whisperId) {
       whisper.whisperId = params.whisperId
       dispatch(updateWhisper({whisperId: params.whisperId, updateData: whisper}))
+      history.push(`/whispers/${params.whisperId}`);
     } else {
       dispatch(postAWhisper(whisper))
+      history.push('/whispers');
     }
   }
 

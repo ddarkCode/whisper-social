@@ -1,25 +1,25 @@
 main {
-  margin-top: 120px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   min-height: 100vh;
+  margin: 0;
   margin-top: 120px;
-  
- 
 }
-
 
 .whisper-page {
   display: grid;
   grid-template-columns: repeat(3, 33%);
-  grid-template-rows:repeat(3, 2fr);
+  grid-template-rows: repeat(3, 2fr);
   column-gap: 20px;
   row-gap: 20px;
   justify-content: center;
-  background-color: #D2E0FB;
+  background-color: #d2e0fb;
   margin: 30px;
   margin-top: 50px;
   padding: 30px;
-  
+  margin-bottom: 30px;
 }
 
 .search_input {
@@ -31,11 +31,10 @@ main {
   padding-left: 20px;
   font-size: 18px;
   font-family: inherit;
-  color: #7D7C7C;
+  color: #7d7c7c;
 }
 
 .search_input::placeholder {
-
   font-size: 18px;
   font-family: inherit;
 }
@@ -47,14 +46,14 @@ main {
 @media only screen and (max-width: 950px) {
   .whisper-page {
     grid-template-columns: repeat(2, 48%);
-    grid-template-rows:repeat(2, 4fr);
+    grid-template-rows: repeat(2, 4fr);
   }
 }
 
 @media only screen and (max-width: 600px) {
   .whisper-page {
     grid-template-columns: repeat(2, 45%);
-    grid-template-rows:repeat(2, 4fr);
+    grid-template-rows: repeat(2, 4fr);
     margin: 10px;
     padding: 10px;
     margin-top: 80px;
@@ -65,7 +64,5 @@ main {
   .whisper-page {
     grid-template-columns: 95%;
     grid-template-rows: 4fr;
-
   }
- 
 }

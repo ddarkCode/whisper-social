@@ -1,109 +1,172 @@
-import {config} from 'dotenv';
+import { config } from "dotenv";
 config();
 
-import express from 'express';
-import {renderToString} from 'react-dom/server';
-import debug from 'debug';
-import ejs from 'ejs';
-import morgan from 'morgan';
-import React from 'react';
-import cors from 'cors';
-import session from 'express-session';
-import  MongoDBStore  from 'connect-mongodb-session';
-import {connect} from 'mongoose';
-import { matchRoutes } from 'react-router-config';
-import http from 'http';
-import socket from 'socket.io'
+import express from "express";
+import { renderToString } from "react-dom/server";
+import debug from "debug";
+import ejs from "ejs";
+import morgan from "morgan";
+import React from "react";
+import cors from "cors";
+import session from "express-session";
+import MongoDBStore from "connect-mongodb-session";
+import { connect } from "mongoose";
+import { matchRoutes } from "react-router-config";
+import http from "http";
+import { Server } from "socket.io";
 
-
-
-import renderer from './helpers/renderer';
-import { store } from './helpers/configureStore';
-import Routes from './src/Routes';
-import passportConfig from './passport';
-import authRouter from './routes/authRoutes';
-import userRoutes from './routes/userRoutes';
-import whisperRoutes from './routes/whisperRoutes';
-import commentRoutes from './routes/commentRoutes';
-import likeRoutes from './routes/likeRoutes';
+import renderer from "./helpers/renderer";
+import { store } from "./helpers/configureStore";
+import Routes from "./src/Routes";
+import passportConfig from "./passport";
+import authRouter from "./routes/authRoutes";
+import userRoutes from "./routes/userRoutes";
+import whisperRoutes from "./routes/whisperRoutes";
+import commentRoutes from "./routes/commentRoutes";
+import likeRoutes from "./routes/likeRoutes";
 
 const PORT = process.env.PORT || 3000;
-const log = debug('app');
+const log = debug("app");
 const app = express();
-const MongoDBStoreSession = MongoDBStore(session)
+const MongoDBStoreSession = MongoDBStore(session);
 
-const mongoSessionStore =  new MongoDBStoreSession({
+const mongoSessionStore = new MongoDBStoreSession({
   uri: process.env.MONGO_LOCAL,
-  collection: 'whisperDbSessions'
+  collection: "whisperDbSessions",
 });
 
-
-
-app.set('view engine', 'ejs');
-app.set('views', 'views');
+app.set("view engine", "ejs");
+app.set("views", "views");
 app.use(cors());
-app.use(express.static('public'));
-app.use(express.urlencoded({extended: true}));
+app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(morgan('tiny'));
+app.use(morgan("tiny"));
 
-(async function connectToDB(){
+(async function connectToDB() {
   try {
-    await connect(process.env.MONGO_LOCAL)
-    log('Successfully connected to Database');
+    await connect(process.env.MONGO_LOCAL);
+    log("Successfully connected to Database");
   } catch (err) {
-    log(err)
+    log(err);
   }
-}())
+})();
 
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  saveUninitialized: false,
-  resave: true,
-  store: mongoSessionStore,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
-  },
-}))
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: false,
+    resave: true,
+    store: mongoSessionStore,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+    },
+  })
+);
 
 passportConfig(app);
 
-app.use('/api/auth', authRouter())
-app.use('/api/users', userRoutes())
-app.use('/api/whispers', whisperRoutes())
-app.use('/api/comments', commentRoutes())
-app.use('/api/likes', likeRoutes());
+app.use("/api/auth", authRouter());
+app.use("/api/users", userRoutes());
+app.use("/api/whispers", whisperRoutes());
+app.use("/api/comments", commentRoutes());
+app.use("/api/likes", likeRoutes());
 
 function reqMiddleware(req, res, next) {
-  if (req.originalUrl === '/favicon.ico') {
-    res.status(204).end()
+  if (req.originalUrl === "/favicon.ico") {
+    res.status(204).end();
   } else {
-    next()
+    next();
   }
 }
 
-app.get('*', reqMiddleware, (req, res) => {
+app.get("*", reqMiddleware, (req, res) => {
+  const whisperId = req.originalUrl.split("/")[2];
 
-  const whisperId = req.originalUrl.split('/')[2]
- 
   let userId;
   if (req.user) {
-    userId = req.user._id
+    userId = req.user._id;
   }
-  const promises = matchRoutes(Routes, req.path).map(({route, match}) => {
-    return route.loadData ? route.loadData(store, whisperId, userId) : Promise.resolve(null);
-  })
+  const promises = matchRoutes(Routes, req.path).map(({ route, match }) => {
+    return route.loadData
+      ? route.loadData(store, whisperId, userId)
+      : Promise.resolve(null);
+  });
 
   Promise.all(promises).then(() => {
-    const content = renderer(req, store)
-    const initialState = store.getState()
+    const content = renderer(req, store);
+    const initialState = store.getState();
 
-    return res.status(200).render('index', {content, initialState});
+    return res.status(200).render("index", { content, initialState });
+  });
+});
 
-  })
+const server = http.createServer(app);
 
-})
+const socketActiveUsers = {};
+const socketMessageQueue = {};
 
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
 
+io.on("connection", (socket) => {
+  log("A user connected", socket.userId);
+  log("A user connected");
 
-app.listen(PORT, () => log(`Server is running on port:${PORT} `));
+  socket.on("join", (userId) => {
+    log("Socket Join: UserId: ", userId);
+    socket.userId = userId;
+    socketActiveUsers[userId] = socket;
+
+    if (socketMessageQueue[userId]) {
+      socketMessageQueue[userId].forEach((message) => {
+        socket.emit("private-message", message);
+      });
+      delete socketMessageQueue[userId];
+    }
+  });
+
+  socket.on("private-message", ({ to, message, image_url, date, username }) => {
+    const targtSocket = Object.values(io.sockets.sockets).find(
+      (socket) => socket.userId === to
+    );
+  
+
+    log({ to, message, image_url, date, username });
+
+    if (socketActiveUsers[to]) {
+      socketActiveUsers[to].emit("private-message", {
+        from: socket.userId,
+        message,
+        image_url,
+        date,
+        username,
+      });
+    } else {
+    
+      if (!socketMessageQueue[to]) {
+        socketMessageQueue[to] = [];
+      }
+      socketMessageQueue[to].push({
+        from: socket.userId,
+        message,
+        image_url,
+        date,
+        username,
+      });
+    }
+  });
+
+  socket.on("disconnect", () => {
+    log("A User disconnected");
+    if (socket.userId) {
+      delete socketActiveUsers[socket.userId];
+    }
+  });
+});
+
+server.listen(PORT, () => log(`Server is running on port:${PORT} `));
