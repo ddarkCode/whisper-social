@@ -24,6 +24,7 @@ function WhisperPage({}) {
   const history = useHistory();
   const [liked, setLiked] = useState(false);
   const [display, setDisplay] = useState(false);
+  const [comment, setComment] = useState('');
   const { whisper, comments, likes } = whispers;
   const { whisperId } = params;
 
@@ -55,7 +56,6 @@ function WhisperPage({}) {
       handleLike();
     }
   }
-  const [comment, setComment] = useState('');
   function handleCommentChange(e) {
     setComment(e.target.value);
   }
@@ -69,7 +69,8 @@ function WhisperPage({}) {
         comment,
       })
     );
-    setDisplay(!display);
+
+    setComment('');
     history.push(`/whispers/${whisperId}`);
   }
 

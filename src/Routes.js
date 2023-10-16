@@ -9,6 +9,8 @@ import WhisperPage from './pages/WhisperPage';
 import WhispererPage from './pages/WhispererPage';
 import AddWhisperPage from './pages/AddWhisperPage';
 import UserPage from './pages/UserPage';
+import NotFoundPage from './pages/NotFoundPage';
+import AboutPage from './pages/AboutPage';
 
 const Routes = [
   {
@@ -52,6 +54,13 @@ const Routes = [
       {
         ...AddWhisperPage,
         path: '/addwhisper/:whisperId',
+      },
+      {
+        ...AboutPage,
+        path: '/about',
+      },
+      {
+        component: NotFoundPage,
       },
     ],
   },

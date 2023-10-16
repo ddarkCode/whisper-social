@@ -1,0 +1,56 @@
+.notfound-page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin-top: 80px;
+}
+
+.notfound-page-container p {
+  font-size: 21px;
+  font-weight: 500;
+  margin: 20px 0;
+  line-height: 1.8;
+  font-style: italic;
+}
+
+.notfound-page-container a {
+  background-color: #fff;
+  width: 200px;
+  height: 50px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .notfound-page-container {
+    margin-top: 50px;
+  }
+  .notfound-page-image-container {
+    width: 90%;
+    text-align: center;
+  }
+
+  .notfound-page-image-container img {
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .notfound-page-container p {
+    margin: 40px 20px;
+    font-size: 15px;
+    font-weight: 500;
+  } /*
+  .notfound-page-container a {
+    background-color: #fff;
+    width: 200px;
+    height: 50px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  } */
+}

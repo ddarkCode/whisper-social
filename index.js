@@ -65,7 +65,7 @@ app.use(
     resave: true,
     store: mongoSessionStore,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+      maxAge: 1000 * 60 * 60 * 24 * 7,
     },
   })
 );
@@ -101,10 +101,19 @@ app.get('*', reqMiddleware, (req, res) => {
   });
 
   Promise.all(promises).then(() => {
-    const content = renderer(req, store);
+    const context = {};
+    const content = renderer(req, store, context);
     const initialState = store.getState();
+    log(context);
 
-    return res.status(200).render('index', { content, initialState });
+    if (context.action) {
+      return res.status(302).redirect(context.url);
+    }
+    if (context.notFound === true) {
+      res.status(404);
+    }
+
+    return res.render('index', { content, initialState });
   });
 });
 

@@ -1,56 +1,14 @@
-import {Router} from 'express';
-import debug from 'debug';
-import passport from 'passport';
+import { Router } from 'express';
 
-const log = debug('app:authRoutes')
+import authController from '../controllers/authController';
+
+const { signin, signup, signout } = authController;
 
 export default function authRouter() {
   const authRoutes = Router();
-   authRoutes.route('/signup')
-   .post((req, res) => {
-    passport.authenticate('signup', (err, user, info, status) => {
-      if (err) {
-        log(err);
-        return res.status(500).json(err);
-      }
-      req.login(user, err => {
-        if (err) {
-          log(err);
-        return res.status(500).json({err, info});
-        }
-        const {username, firstname, lastname, location, image_url, email, followers, following, createdAt, _id, whispers} = user;
-        return res.status(201).json({user : {username, firstname, lastname, location, image_url, email, followers, following, createdAt, _id, whispers}, info})
-      })
-    })(req, res);    
-   });
-   authRoutes.route('/signin')
-   .post((req, res) => {
-    passport.authenticate('signin', (err, user, info) => {
-      if (err) {
-        log(err);
-        return res.status(500).json({err, info})
-      }
+  authRoutes.route('/signup').post(signup);
+  authRoutes.route('/signin').post(signin);
+  authRoutes.route('/signout').get(signout);
 
-        req.login(user, err => {
-          if (err) {
-            log(err);
-            return res.status(500).json({err, info: 'An error occurred during login, please try again'})
-          }
-          const {username, firstname, lastname, location, image_url, email, followers, following, createdAt, _id} = user;
-           return res.status(200).json({user : {username, firstname, lastname, location, image_url, email, followers, following, createdAt, _id}, info})
-        })
-    })(req, res)
-   })
-   authRoutes.route('/signout')
-   .get(async (req, res) => {
-    req.logout(err => {
-      if (err) {
-        log(err);
-        return res.status(500).json(err);
-      }
-      return res.status(200).json({user: null, message: 'You Successfully Logged Out.'})
-    })
-   })
-
-  return authRoutes
+  return authRoutes;
 }
