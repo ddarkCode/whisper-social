@@ -48,6 +48,10 @@ main {
     grid-template-columns: repeat(2, 48%);
     grid-template-rows: repeat(2, 4fr);
   }
+
+  .search_input {
+    width: 85%;
+  }
 }
 
 @media only screen and (max-width: 600px) {

@@ -22,13 +22,28 @@ function AddWhisperPage() {
   const dispatch = useDispatch();
   const params = useParams();
   const history = useHistory();
-  const stateWhisper = useSelector((state) => state.whispers.whisper);
+  let stateWhisper;
+
+  if (params.whisperId) {
+    stateWhisper = useSelector((state) => state.whispers.whisper);
+  }
+
   const [whisper, setWhisper] = useState({
-    title: stateWhisper.title || '',
-    image_url: stateWhisper.image_url || '',
-    whisper: stateWhisper.whisper || '',
+    title:
+      stateWhisper && auth.user._id === stateWhisper.whispererId
+        ? stateWhisper.title
+        : '',
+    image_url:
+      stateWhisper && auth.user._id === stateWhisper.whispererId
+        ? stateWhisper.image_url
+        : '',
+    whisper:
+      stateWhisper && auth.user._id === stateWhisper.whispererId
+        ? stateWhisper.whisper
+        : '',
     whispererId: auth.user && auth.user._id,
   });
+
   const [isSubmited, setIsSubmitted] = useState(false);
 
   useEffect(() => {
@@ -56,10 +71,20 @@ function AddWhisperPage() {
         updateWhisper({ whisperId: params.whisperId, updateData: whisper })
       );
       setIsSubmitted(!isSubmited);
+      setWhisper({
+        title: '',
+        image_url: '',
+        whisper: '',
+      });
       history.push(`/whispers/${params.whisperId}`);
     } else {
       dispatch(postAWhisper(whisper));
       setIsSubmitted(!isSubmited);
+      setWhisper({
+        title: '',
+        image_url: '',
+        whisper: '',
+      });
       history.push('/whispers');
     }
   }

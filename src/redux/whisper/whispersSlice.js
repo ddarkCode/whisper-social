@@ -134,7 +134,7 @@ export const whispersSlice = createSlice({
       state.whisper = action.payload;
     });
     builder.addCase(postAWhisper.fulfilled, (state, action) => {
-      state.whispers = state.whispers.concat(action.payload);
+      state.whispers = state.whispers.push(action.payload);
     });
     builder.addCase(updateWhisper.fulfilled, (state, action) => {
       state.whispers = state.whispers.map((whisper) => {
