@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+import { baseUrl } from '..';
+
 const initialState = {
   user: null,
   info: null,
@@ -9,10 +11,7 @@ const initialState = {
 export const signup = createAsyncThunk(
   'auth/signup',
   async (user, thunkApi) => {
-    const { data } = await axios.post(
-      'http://localhost:3000/api/auth/signup',
-      user
-    );
+    const { data } = await axios.post(`${baseUrl}/api/auth/signup`, user);
     return data;
   }
 );
@@ -20,10 +19,7 @@ export const signup = createAsyncThunk(
 export const signin = createAsyncThunk(
   'auth/signin',
   async (user, thunkApi) => {
-    const { data } = await axios.post(
-      'http://localhost:3000/api/auth/signin',
-      user
-    );
+    const { data } = await axios.post(`${baseUrl}/api/auth/signin`, user);
     return data;
   }
 );
@@ -31,10 +27,7 @@ export const signin = createAsyncThunk(
 export const signout = createAsyncThunk(
   'auth/signout',
   async (user, thunkApi) => {
-    const { data } = await axios.get(
-      'http://localhost:3000/api/auth/signout',
-      user
-    );
+    const { data } = await axios.get(`${baseUrl}/api/auth/signout`, user);
     return data;
   }
 );
@@ -43,7 +36,7 @@ export const update = createAsyncThunk(
   'auth/update',
   async (user, thunkApi) => {
     const { data } = await axios.patch(
-      `http://localhost:3000/api/users/${user.userId}`,
+      `${baseUrl}/api/users/${user.userId}`,
       user
     );
     return data;

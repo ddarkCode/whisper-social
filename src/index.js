@@ -10,6 +10,7 @@ import { createStore } from './redux';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 
+
 const store = createStore(window.initialState);
 
 if (typeof window !== undefined) {

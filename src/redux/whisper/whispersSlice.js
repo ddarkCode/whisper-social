@@ -2,11 +2,13 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { removeDuplicates } from '../../utils/utils';
 
+import { baseUrl } from '..';
+
 export const getWhispers = createAsyncThunk(
   'whispers/get_all_whispers',
   async (options, thunkApi) => {
     const { data } = await axios.get(
-      `http://localhost:3000/api/whispers/?page=${options.page}&limit=${options.limit}`
+      `${baseUrl}/api/whispers/?page=${options.page}&limit=${options.limit}`
     );
     return data;
   }
@@ -16,7 +18,7 @@ export const getWhispererWhispers = createAsyncThunk(
   'whispers/get_all_whisperer_whispers',
   async (options, thunkApi) => {
     const { data } = await axios.get(
-      `http://localhost:3000/api/whispers/?whispererId=${options.userId}&page=${options.page}&limit=${options.limit}`
+      `${baseUrl}/api/whispers/?whispererId=${options.userId}&page=${options.page}&limit=${options.limit}`
     );
     return data;
   }
@@ -25,9 +27,7 @@ export const getWhispererWhispers = createAsyncThunk(
 export const getWhisper = createAsyncThunk(
   'whispers/get_a_whisper',
   async (whisperId, thunkApi) => {
-    const { data } = await axios.get(
-      `http://localhost:3000/api/whispers/${whisperId}`
-    );
+    const { data } = await axios.get(`${baseUrl}/api/whispers/${whisperId}`);
     return data;
   }
 );
@@ -35,10 +35,7 @@ export const getWhisper = createAsyncThunk(
 export const postAWhisper = createAsyncThunk(
   'whispers/post_a_whisper',
   async (whisperObj, thunkApi) => {
-    const { data } = await axios.post(
-      `http://localhost:3000/api/whispers`,
-      whisperObj
-    );
+    const { data } = await axios.post(`${baseUrl}/api/whispers`, whisperObj);
     return data;
   }
 );
@@ -47,7 +44,7 @@ export const updateWhisper = createAsyncThunk(
   'whispers/update_a_whisper',
   async (updateObj, thunkApi) => {
     const { data } = await axios.patch(
-      `http://localhost:3000/api/whispers/${updateObj.whisperId}`,
+      `${baseUrl}/api/whispers/${updateObj.whisperId}`,
       updateObj.updateData
     );
     return data;
@@ -57,9 +54,7 @@ export const updateWhisper = createAsyncThunk(
 export const deleteWhisper = createAsyncThunk(
   'whispers/delete_a_whisper',
   async (whisperId, thunkApi) => {
-    const { data } = await axios.delete(
-      `http://localhost:3000/api/whispers/${whisperId}`
-    );
+    const { data } = await axios.delete(`${baseUrl}/api/whispers/${whisperId}`);
     return data;
   }
 );
@@ -68,7 +63,7 @@ export const getLikes = createAsyncThunk(
   'whispers/get_likes',
   async (likeQuery, thunkApi) => {
     const { data } = await axios.get(
-      `http://localhost:3000/api/likes/?whisperId=${likeQuery}`
+      `${baseUrl}/api/likes/?whisperId=${likeQuery}`
     );
     return data;
   }
@@ -77,10 +72,7 @@ export const getLikes = createAsyncThunk(
 export const postLike = createAsyncThunk(
   'whispers/post_like',
   async (likeObj, thunkApi) => {
-    const { data } = await axios.post(
-      'http://localhost:3000/api/likes/',
-      likeObj
-    );
+    const { data } = await axios.post(`${baseUrl}/api/likes/`, likeObj);
     return data;
   }
 );
@@ -88,9 +80,7 @@ export const postLike = createAsyncThunk(
 export const deleteLike = createAsyncThunk(
   'whispers/delete_like',
   async (likeId, thunkApi) => {
-    const { data } = await axios.delete(
-      `http://localhost:3000/api/likes/${likeId}`
-    );
+    const { data } = await axios.delete(`${baseUrl}/api/likes/${likeId}`);
     return data;
   }
 );
@@ -99,7 +89,7 @@ export const getComments = createAsyncThunk(
   'whispers/get_comments',
   async (commentQuery, thunkApi) => {
     const { data } = await axios.get(
-      `http://localhost:3000/api/comments/?whisperId=${commentQuery}`
+      `${baseUrl}/api/comments/?whisperId=${commentQuery}`
     );
     return data;
   }
@@ -107,10 +97,7 @@ export const getComments = createAsyncThunk(
 export const postComment = createAsyncThunk(
   'whispers/post_comment',
   async (commentObj, thunkApi) => {
-    const { data } = await axios.post(
-      `http://localhost:3000/api/comments`,
-      commentObj
-    );
+    const { data } = await axios.post(`${baseUrl}/api/comments`, commentObj);
     return data;
   }
 );
