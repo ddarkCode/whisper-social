@@ -34,6 +34,7 @@ const limiter = rateLimit({
   limit: 100,
   standardHeaders: 'draft-7',
   legacyHeaders: false,
+  validate: { trustProxy: false },
 });
 
 const mongoSessionStore = new MongoDBStoreSession({
@@ -43,19 +44,19 @@ const mongoSessionStore = new MongoDBStoreSession({
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
-app.set('trust proxy', true);
 app.use(cors());
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan('tiny'));
+app.use(limiter);
 
 (async function connectToDB() {
   try {
     await connect(process.env.MONGO_CLOUD);
-    log('Successfully connected to Database');
+    console.log('Successfully connected to Database');
   } catch (err) {
-    log(err);
+    console.log(err);
   }
 })();
 
@@ -72,7 +73,6 @@ app.use(
 );
 
 passportConfig(app);
-app.use(limiter);
 
 app.use('/api/auth', authRouter());
 app.use('/api/users', userRoutes());
@@ -172,4 +172,4 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(PORT, () => log(`Server is running on port:${PORT} `));
+server.listen(PORT, () => console.log(`Server is running on port:${PORT} `));

@@ -8,7 +8,6 @@ export const getWhispers = createAsyncThunk(
     const { data } = await axios.get(
       `http://localhost:3000/api/whispers/?page=${options.page}&limit=${options.limit}`
     );
-    console.log('Redux Request: ', data.whispers.length);
     return data;
   }
 );
