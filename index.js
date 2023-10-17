@@ -43,6 +43,7 @@ const mongoSessionStore = new MongoDBStoreSession({
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
+app.set('trust proxy', true);
 app.use(cors());
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
