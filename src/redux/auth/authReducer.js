@@ -53,27 +53,40 @@ export const update = createAsyncThunk(
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    updateAuthOnPageLoad(state, action) {
+      state.user = JSON.parse(action.payload);
+    },
+  },
 
   extraReducers: (builder) => {
     builder.addCase(signup.fulfilled, (state, action) => {
+      localStorage.setItem('auth', JSON.stringify(action.payload.user));
       state.user = action.payload.user;
       state.info = action.payload.info;
     });
     builder.addCase(signin.fulfilled, (state, action) => {
+      localStorage.setItem('auth', JSON.stringify(action.payload.user));
       state.user = action.payload.user;
       state.info = action.payload.info;
     });
     builder.addCase(update.fulfilled, (state, action) => {
+      localStorage.setItem('auth', JSON.stringify(action.payload.user));
       state.user = action.payload.user;
-      state.info = action.payload.user;
+      state.info = action.payload.info;
     });
     builder.addCase(signout.fulfilled, (state, action) => {
+      localStorage.setItem('auth', action.payload.user);
       state.user = action.payload.user;
+      state.info = action.payload.message;
     });
   },
 });
 
 const { actions, reducer } = authSlice;
+
+const { updateAuthOnPageLoad } = actions;
+
+export { updateAuthOnPageLoad };
 
 export default reducer;

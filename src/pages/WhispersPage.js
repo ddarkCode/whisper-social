@@ -14,7 +14,9 @@ function WhispersPage() {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    dispatch(getWhispers({ page: 1, limit: 10 }));
+    if (whispers.length === 0) {
+      dispatch(getWhispers({ page: 1, limit: 10 }));
+    }
   }, []);
 
   function handleSearchChange(e) {
@@ -28,6 +30,7 @@ function WhispersPage() {
   );
 
   const { limit, hasNextPage, nextPage } = paginationOptions;
+
   const fetchMoreData = () => {
     dispatch(getWhispers({ page: nextPage, limit }));
   };
@@ -46,7 +49,7 @@ function WhispersPage() {
             onChange={handleSearchChange}
           />
           <InfiniteScroll
-            dataLength={whispers.length} //This is important field to render the next data
+            dataLength={whispers.length}
             next={fetchMoreData}
             hasMore={hasNextPage}
             loader={
@@ -61,14 +64,20 @@ function WhispersPage() {
               </div>
             }
             endMessage={
-              <p style={{ textAlign: 'center' }}>
+              <p
+                style={{
+                  textAlign: 'center',
+                  fontSize: '18px',
+                  margin: '20px 0',
+                }}
+              >
                 <b>Yay! You have seen it all</b>
               </p>
             }
           >
             <div className="whisper-page">
               {whispers.map((whisper, index) => (
-                <Whisper key={index} {...whisper} />
+                <Whisper key={whisper._id} {...whisper} />
               ))}
             </div>
           </InfiniteScroll>
@@ -80,5 +89,5 @@ function WhispersPage() {
 
 export default {
   component: WhispersPage,
-  loadData: (store) => store.dispatch(getWhispers({})),
+  loadData: (store) => store.dispatch(getWhispers({ page: 1, limit: 10 })),
 };

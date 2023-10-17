@@ -37,7 +37,7 @@ const limiter = rateLimit({
 });
 
 const mongoSessionStore = new MongoDBStoreSession({
-  uri: process.env.MONGO_LOCAL,
+  uri: process.env.MONGO_CLOUD,
   collection: 'whisperDbSessions',
 });
 
@@ -51,7 +51,7 @@ app.use(morgan('tiny'));
 
 (async function connectToDB() {
   try {
-    await connect(process.env.MONGO_LOCAL);
+    await connect(process.env.MONGO_CLOUD);
     log('Successfully connected to Database');
   } catch (err) {
     log(err);
@@ -65,7 +65,7 @@ app.use(
     resave: true,
     store: mongoSessionStore,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7,
+      maxAge: 1000 * 60 * 60 * 24 * 7 * 4 * 12,
     },
   })
 );
@@ -104,7 +104,6 @@ app.get('*', reqMiddleware, (req, res) => {
     const context = {};
     const content = renderer(req, store, context);
     const initialState = store.getState();
-    log(context);
 
     if (context.action) {
       return res.status(302).redirect(context.url);

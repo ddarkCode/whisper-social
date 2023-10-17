@@ -1,6 +1,9 @@
 import { Router } from 'express';
+import debug from 'debug';
 
 import whispersControllers from '../controllers/whispersControllers';
+
+const log = debug('app:whispersRoutes');
 
 function whisperRoutes() {
   const {

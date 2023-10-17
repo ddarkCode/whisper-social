@@ -15,8 +15,8 @@ export default (function whispersController() {
       }
 
       const options = {
-        page: +req.query.page,
-        limit: +req.query.limit,
+        page: +req.query.page || 1,
+        limit: +req.query.limit || 10,
         sort: { createdAt: 'desc' },
         collation: {
           locale: 'en',

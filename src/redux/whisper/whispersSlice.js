@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { removeDuplicates } from '../../utils/utils';
 
 export const getWhispers = createAsyncThunk(
   'whispers/get_all_whispers',
@@ -7,6 +8,7 @@ export const getWhispers = createAsyncThunk(
     const { data } = await axios.get(
       `http://localhost:3000/api/whispers/?page=${options.page}&limit=${options.limit}`
     );
+    console.log('Redux Request: ', data.whispers.length);
     return data;
   }
 );
@@ -131,7 +133,11 @@ export const whispersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getWhispers.fulfilled, (state, action) => {
-      state.whispers = state.whispers.concat(action.payload.whispers);
+      state.whispers = removeDuplicates(
+        state.whispers,
+        action.payload.whispers
+      );
+
       state.paginationOptions = action.payload.paginationOptions;
     });
     builder.addCase(getWhispererWhispers.fulfilled, (state, action) => {
