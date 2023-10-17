@@ -5,13 +5,22 @@
   line-height: 1.5;
   margin-top: 120px;
   padding: 0 50px;
+  /* width: 100%; */
 }
- 
+
+.single-whisper .whisper-page-container {
+  width: 100%;
+}
+
+.single-whisper .whisper-page-image-container {
+  width: 100%;
+}
+
 .single-whisper img {
   width: 100%;
   object-fit: cover;
   height: 600px;
-} 
+}
 
 .single-whisper h2 {
   margin: 10px 0;
@@ -64,7 +73,7 @@
 }
 
 .reaction-icons div:first-child {
- margin-right: 40px;
+  margin-right: 40px;
 }
 
 .reaction-icons div button {
@@ -96,10 +105,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 
-.whisperer-edit-delete a, .whisperer-edit-delete button {
+.whisperer-edit-delete a,
+.whisperer-edit-delete button {
   width: 150px;
   height: 50px;
   font-weight: 500;
@@ -107,11 +116,8 @@
   cursor: pointer;
 }
 
-
 @media only screen and (max-width: 600px) {
-
   .single-whisper {
- 
     padding: 0 20px;
     line-height: 1.7;
     font-size: 18px;
@@ -120,10 +126,8 @@
   .single-whisper h2 {
     font-size: 18px;
     font-weight: 600;
-  
   }
   .single-whisper img {
-  
     height: 400px;
-  } 
+  }
 }

@@ -9,7 +9,8 @@
   "scripts": {
     "webpack-server": "webpack --config webpack-server.config.js --watch",
     "webpack-client": "webpack --config webpack-client.config.js --watch",
-    "dev": "set DEBUG=app, app:* & nodemon build/bundle.js"
+    "dev": "set DEBUG=app, app:* & nodemon build/bundle.js",
+    "start": "node app.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
